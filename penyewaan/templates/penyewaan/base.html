@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EventRent{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h2>EventRent</h2>
+
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Kategori</a>
+            <a href="#">Peralatan</a>
+            <a href="#">Pelanggan</a>
+            <a href="#">Penyewaan</a>
+            <a href="#">Pembayaran</a>
+            <a href="#">Laporan</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+</body>
+</html>
