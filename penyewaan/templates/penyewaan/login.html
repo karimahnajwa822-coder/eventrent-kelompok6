@@ -1,0 +1,65 @@
+{% extends 'penyewaan/auth_base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="login-card">
+
+    <h2>Selamat Datang 👋</h2>
+    <p>Silakan login untuk mengakses EventRent.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Username</label>
+
+        <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input
+                type="text"
+                class="form-control"
+                name="username"
+                placeholder="Masukkan username"
+                required>
+        </div>
+
+        <label>Password</label>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Masukkan password"
+                required>
+        </div>
+
+        <div class="login-options">
+
+            <label class="remember">
+                <input type="checkbox">
+                Ingat saya
+            </label>
+
+            <a href="#">Lupa Password?</a>
+
+        </div>
+
+        <button type="submit" class="btn-login">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Masuk
+        </button>
+
+    </form>
+
+    <div class="text-center">
+        Belum punya akun?
+        <a href="{% url 'register' %}">Daftar Sekarang</a>
+    </div>
+
+</div>
+
+{% endblock %}
