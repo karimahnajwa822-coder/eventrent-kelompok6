@@ -8,6 +8,7 @@ class ProfilPengguna(models.Model):
         ('Aktif', 'Aktif'),
         ('Ditolak', 'Ditolak'),
     ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     no_hp = models.CharField(max_length=15)
     alamat = models.TextField()
@@ -16,10 +17,22 @@ class ProfilPengguna(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Kategori(models.Model):
+    nama_kategori = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nama_kategori
 
 # 2. Tabel Master Barang / Peralatan
 class Barang(models.Model):
+    kategori = models.ForeignKey(
+        Kategori,
+        on_delete=models.CASCADE
+    )
+
     nama_barang = models.CharField(max_length=100)
+    gambar = models.ImageField(upload_to='barang/')
     stok = models.IntegerField()
     harga_hari = models.IntegerField()
     status = models.CharField(max_length=20, default='Tersedia')
