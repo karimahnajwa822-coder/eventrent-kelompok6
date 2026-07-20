@@ -1,0 +1,156 @@
+{% extends 'penyewaan/auth_base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="login-card">
+
+    <h2>Buat Akun Baru ✨</h2>
+
+    <p>Daftar untuk mulai menggunakan EventRent.</p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Nama Lengkap</label>
+
+        <div class="input-group">
+
+            <i class="fa-solid fa-user"></i>
+
+            <input
+            type="text"
+            class="form-control"
+            placeholder="Masukkan Nama Lengkap">
+
+        </div>
+
+        <label>Username</label>
+
+        <div class="input-group">
+
+            <i class="fa-solid fa-circle-user"></i>
+
+            <input
+            type="text"
+            class="form-control"
+            placeholder="Masukkan Username">
+
+        </div>
+
+        <label>Email</label>
+
+        <div class="input-group">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <input
+            type="email"
+            class="form-control"
+            placeholder="Masukkan Email">
+
+        </div>
+
+        <label>Password</label>
+
+        <div class="input-group password-group">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+            type="password"
+            class="form-control"
+            id="password1"
+            placeholder="Masukkan Password">
+
+            <button
+            type="button"
+            class="toggle-password"
+            onclick="togglePassword('password1',this)">
+
+                <i class="fa-solid fa-eye"></i>
+
+            </button>
+
+        </div>
+
+        <label>Konfirmasi Password</label>
+
+        <div class="input-group password-group">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+            type="password"
+            class="form-control"
+            id="password2"
+            placeholder="Konfirmasi Password">
+
+            <button
+            type="button"
+            class="toggle-password"
+            onclick="togglePassword('password2',this)">
+
+                <i class="fa-solid fa-eye"></i>
+
+            </button>
+
+        </div>
+
+        <button class="btn-login">
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Daftar Sekarang
+
+        </button>
+
+    </form>
+
+    <div class="text-center">
+
+        Sudah punya akun?
+
+        <a href="{% url 'login' %}">
+
+            Login
+
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+function togglePassword(id,btn){
+
+const input=document.getElementById(id);
+
+const icon=btn.querySelector("i");
+
+if(input.type==="password"){
+
+input.type="text";
+
+icon.classList.remove("fa-eye");
+
+icon.classList.add("fa-eye-slash");
+
+}else{
+
+input.type="password";
+
+icon.classList.remove("fa-eye-slash");
+
+icon.classList.add("fa-eye");
+
+}
+
+}
+
+</script>
+
+{% endblock %}
