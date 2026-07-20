@@ -1,0 +1,172 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}Data Penyewaan{% endblock %}
+
+{% block content %}
+
+<div class="penyewaan-page">
+
+    <div class="page-header">
+        <div>
+            <h1>Data Penyewaan</h1>
+            <p>Kelola seluruh data penyewaan peralatan EventRent.</p>
+        </div>
+
+        <button class="btn-primary">
+            + Tambah Penyewaan
+        </button>
+    </div>
+
+    <!-- FILTER -->
+
+    <div class="filter-box">
+
+        <input
+            type="text"
+            placeholder="Cari nama pelanggan..."
+        >
+
+        <select>
+            <option>Semua Status</option>
+            <option>Disewa</option>
+            <option>Selesai</option>
+            <option>Diproses</option>
+        </select>
+
+    </div>
+
+    <!-- TABEL -->
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>No</th>
+                    <th>Pelanggan</th>
+                    <th>Barang</th>
+                    <th>Tanggal Sewa</th>
+                    <th>Tanggal Kembali</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>Fatma</td>
+                    <td>Sound System</td>
+                    <td>20 Juli 2026</td>
+                    <td>22 Juli 2026</td>
+                    <td>Rp350.000</td>
+
+                    <td>
+                        <span class="badge disewa">
+                            Disewa
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn-detail">
+                            Detail
+                        </button>
+
+                        <button class="btn-edit">
+                            Edit
+                        </button>
+
+                        <button class="btn-hapus">
+                            Hapus
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>2</td>
+                    <td>Najwa</td>
+                    <td>Tenda</td>
+                    <td>19 Juli 2026</td>
+                    <td>21 Juli 2026</td>
+                    <td>Rp250.000</td>
+
+                    <td>
+
+                        <span class="badge kembali">
+                            Selesai
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button class="btn-detail">
+                            Detail
+                        </button>
+
+                        <button class="btn-edit">
+                            Edit
+                        </button>
+
+                        <button class="btn-hapus">
+                            Hapus
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>3</td>
+                    <td>Reva</td>
+                    <td>Kursi VIP</td>
+                    <td>18 Juli 2026</td>
+                    <td>20 Juli 2026</td>
+                    <td>Rp400.000</td>
+
+                    <td>
+
+                        <span class="badge proses">
+                            Diproses
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button class="btn-detail">
+                            Detail
+                        </button>
+
+                        <button class="btn-edit">
+                            Edit
+                        </button>
+
+                        <button class="btn-hapus">
+                            Hapus
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
