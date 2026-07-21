@@ -592,13 +592,9 @@ font-size:30px;
     transition:.3s;
 }
 
-<<<<<<< HEAD
 main{
     padding:20px;
 }
-/* =======================================
-        DASHBOARD
-======================================= */
 
 .dashboard{
     padding:30px;
@@ -1165,7 +1161,6 @@ textarea{
 }
 
 }
-=======
 .sidebar ul li a:hover,
 .sidebar ul li.active a{
     background:rgba(255,255,255,.15);
@@ -1220,4 +1215,3 @@ textarea{
 .login-options a{
     white-space:nowrap;
 }
->>>>>>> e43f98125f5d66dea1767357b9d875f11f76b2c0
