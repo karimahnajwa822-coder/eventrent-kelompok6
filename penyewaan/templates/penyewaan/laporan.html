@@ -1,5 +1,198 @@
 {% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Laporan Penyewaan
+{% endblock %}
 
 {% block content %}
-<h1>Halaman Laporan</h1>
+
+<div class="container-fluid mt-4">
+
+    <!-- Judul -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary">
+                <i class="fas fa-chart-bar me-2"></i>Laporan Penyewaan
+            </h2>
+            <p class="text-muted mb-0">
+                Ringkasan data penyewaan peralatan EventRent.
+            </p>
+        </div>
+
+        <a href="{% url 'export_excel' %}" class="btn btn-success">
+            <i class="fas fa-file-excel me-2"></i>
+            Export Excel
+        </a>
+    </div>
+
+    <!-- Statistik -->
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="fas fa-box fa-2x text-primary mb-2"></i>
+                    <h6>Total Peralatan</h6>
+                    <h3 class="fw-bold">{{ total_barang }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-check fa-2x text-success mb-2"></i>
+                    <h6>Total Penyewaan</h6>
+                    <h3 class="fw-bold">{{ total_penyewaan }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="fas fa-money-bill-wave fa-2x text-warning mb-2"></i>
+                    <h6>Pendapatan</h6>
+                    <h3 class="fw-bold">
+                        Rp {{ total_pendapatan }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="fas fa-undo fa-2x text-danger mb-2"></i>
+                    <h6>Belum Kembali</h6>
+                    <h3 class="fw-bold">
+                        {{ belum_kembali }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Filter -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <form class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Tanggal Awal</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tanggal Akhir</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Tampilkan
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Tabel -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+            <h5 class="mb-0">
+                Data Penyewaan
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-primary">
+
+                        <tr>
+                            <th>No</th>
+                            <th>Pelanggan</th>
+                            <th>Peralatan</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
+                            <th>Total Bayar</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in penyewaan %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>{{ item.pelanggan }}</td>
+
+                            <td>{{ item.barang }}</td>
+
+                            <td>{{ item.tanggal_pinjam }}</td>
+
+                            <td>{{ item.tanggal_kembali }}</td>
+
+                            <td>Rp {{ item.total_bayar }}</td>
+
+                            <td>
+
+                                {% if item.status == "Selesai" %}
+
+                                <span class="badge bg-success">
+                                    Selesai
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Dipinjam
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7" class="text-center text-muted">
+                                Belum ada data penyewaan.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}

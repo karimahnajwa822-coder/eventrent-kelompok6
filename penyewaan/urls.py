@@ -26,4 +26,6 @@ urlpatterns = [
     # Laporan
     path('laporan/', views.laporan, name='laporan'),
 
+    # unduh e-xel
+    path('laporan/export/excel/', views.export_excel, name='export_excel'),
 ]
