@@ -1,6 +1,45 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+<<<<<<< HEAD
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}EventRent{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #eef2f7;
+        font-family: Segoe UI;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 230px;
+        height: 100vh;
+        background: #243d8f;
+        color: white;
+      }
+=======
 
 <head>
     <meta charset="UTF-8">
@@ -38,6 +77,100 @@
     </div>
 
 </div>
+>>>>>>> main
 
-</body>
+      .logo {
+        padding: 25px;
+        font-size: 34px;
+        font-weight: bold;
+      }
+
+      .menu {
+        padding: 10px;
+      }
+
+      .menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        transition: 0.3s;
+        font-size: 18px;
+      }
+
+      .menu a:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .content {
+        margin-left: 230px;
+        padding: 30px;
+      }
+
+      .topbar {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <div class="logo">
+        <i class="bi bi-calendar-check-fill"></i>
+        EventRent
+      </div>
+
+      <div class="menu">
+        <a href="/dashboard/">
+          <i class="bi bi-house-fill"></i>
+          Dashboard
+        </a>
+
+        <a href="#">
+          <i class="bi bi-box-seam"></i>
+          Kategori
+        </a>
+
+        <a href="/detail-barang/">
+          <i class="bi bi-camera-fill"></i>
+          Barang
+        </a>
+
+        <a href="#">
+          <i class="bi bi-cart-fill"></i>
+          Penyewaan
+        </a>
+
+        <a href="#">
+          <i class="bi bi-basket-fill"></i>
+          Keranjang
+        </a>
+
+        <a href="#">
+          <i class="bi bi-file-earmark-text-fill"></i>
+          Laporan
+        </a>
+
+        <a href="#">
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="topbar">
+        <h2>{% block title2 %}Dashboard{% endblock %}</h2>
+        <p>Selamat datang di Sistem Penyewaan EventRent 👋</p>
+      </div>
+
+      {% block content %} {% endblock %}
+    </div>
+  </body>
 </html>

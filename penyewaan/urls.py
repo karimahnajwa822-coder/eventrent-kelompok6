@@ -2,6 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+<<<<<<< HEAD
+    path('detail-barang/', views.detail_barang, name='detail_barang'),
+    path('sewa/<int:barang_id>/', views.sewa_barang, name='sewa_barang'),
+    path('keranjang/', views.keranjang, name='keranjang'),
+=======
 
     # Login
     path('', views.login_view, name='login'),
@@ -26,4 +31,5 @@ urlpatterns = [
     # Laporan
     path('laporan/', views.laporan, name='laporan'),
 
+>>>>>>> main
 ]
