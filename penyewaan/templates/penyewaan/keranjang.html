@@ -1,5 +1,998 @@
 {% extends 'penyewaan/base.html' %}
 
+{% load static %}
+
+{% block title %}
+Keranjang - EventRent
+{% endblock %}
+
 {% block content %}
-<h1>Halaman Keranjang</h1>
+
+<style>
+
+    /* =========================
+       KERANJANG
+    ========================= */
+
+    .cart-page {
+        padding: 10px;
+    }
+
+    .cart-title {
+        margin-bottom: 25px;
+    }
+
+    .cart-title h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1c2470;
+        margin-bottom: 5px;
+    }
+
+    .cart-title p {
+        color: #7c81a3;
+        margin: 0;
+    }
+
+    .cart-layout {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 25px;
+        align-items: start;
+    }
+
+    .cart-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #e7e9f5;
+        overflow: hidden;
+    }
+
+    .cart-card-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid #e7e9f5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cart-card-header h3 {
+        font-size: 17px;
+        margin: 0;
+        font-weight: 600;
+        color: #1c2039;
+    }
+
+    .cart-count {
+        color: #7c81a3;
+        font-size: 13px;
+    }
+
+    /* ITEM KERANJANG */
+
+    .cart-item {
+        display: grid;
+        grid-template-columns: 65px 1fr 130px 130px 35px;
+        align-items: center;
+        gap: 15px;
+        padding: 18px 22px;
+        border-bottom: 1px solid #e7e9f5;
+    }
+
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+
+    .cart-image {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(
+            135deg,
+            #1c2470,
+            #3457e8
+        );
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 27px;
+        color: white;
+    }
+
+    .cart-info h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .cart-info p {
+        margin: 4px 0;
+        color: #7c81a3;
+        font-size: 12px;
+    }
+
+    .condition {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        background: #e6f6ec;
+        color: #1f9d55;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    /* QTY */
+
+    .qty-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e7e9f5;
+        border-radius: 8px;
+        width: fit-content;
+        overflow: hidden;
+    }
+
+    .qty-btn {
+        width: 30px;
+        height: 32px;
+        border: none;
+        background: #f4f6fb;
+        color: #1c2470;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .qty-btn:hover {
+        background: #e5ecfd;
+    }
+
+    .qty-number {
+        width: 38px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    /* HARGA */
+
+    .item-price {
+        text-align: right;
+        color: #1c2470;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .item-price small {
+        display: block;
+        color: #7c81a3;
+        font-weight: normal;
+        font-size: 11px;
+    }
+
+    /* HAPUS */
+
+    .delete-btn {
+        border: none;
+        background: transparent;
+        color: #c7cae0;
+        font-size: 17px;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        color: #e5484d;
+    }
+
+    /* KERANJANG KOSONG */
+
+    .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+        color: #7c81a3;
+    }
+
+    .empty-cart i {
+        font-size: 45px;
+        margin-bottom: 15px;
+        color: #c7cae0;
+    }
+
+    .empty-cart h4 {
+        color: #1c2039;
+    }
+
+    /* RINGKASAN */
+
+    .summary-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #e7e9f5;
+        overflow: hidden;
+    }
+
+    .summary-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid #e7e9f5;
+    }
+
+    .summary-header h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .summary-body {
+        padding: 22px;
+    }
+
+    .date-label {
+        font-size: 12px;
+        color: #5c6180;
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .date-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e7e9f5;
+        border-radius: 8px;
+        background: #f4f6fb;
+        color: #7c81a3;
+        margin-bottom: 18px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 9px 0;
+        color: #7c81a3;
+        font-size: 13px;
+    }
+
+    .summary-total {
+        border-top: 1px dashed #e7e9f5;
+        margin-top: 10px;
+        padding-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1c2470;
+    }
+
+    .btn-checkout {
+        width: 100%;
+        border: none;
+        background: #3457e8;
+        color: white;
+        padding: 13px;
+        border-radius: 9px;
+        margin-top: 20px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-checkout:hover {
+        background: #2540c9;
+    }
+
+    .btn-clear {
+        width: 100%;
+        border: 1px solid #e7e9f5;
+        background: white;
+        color: #1c2470;
+        padding: 11px;
+        border-radius: 9px;
+        margin-top: 10px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-clear:hover {
+        border-color: #1c2470;
+    }
+
+    .status-tip {
+        margin-top: 18px;
+        padding-top: 15px;
+        border-top: 1px solid #e7e9f5;
+        color: #7c81a3;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    /* TOAST */
+
+    .toast-cart {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background: #1c2470;
+        color: white;
+        padding: 13px 20px;
+        border-radius: 9px;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: 0.3s;
+        z-index: 9999;
+    }
+
+    .toast-cart.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1000px) {
+
+        .cart-layout {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+    @media (max-width: 700px) {
+
+        .cart-item {
+            grid-template-columns: 60px 1fr;
+        }
+
+        .qty-box,
+        .item-price,
+        .delete-btn {
+            grid-column: 2;
+        }
+
+        .item-price {
+            text-align: left;
+        }
+
+    }
+
+</style>
+
+
+<div class="cart-page">
+
+    <!-- JUDUL -->
+
+    <div class="cart-title">
+
+        <h1>
+            <i class="fa-solid fa-basket-shopping"></i>
+            Keranjang
+        </h1>
+
+        <p>
+            Barang yang siap disewa di Sistem Penyewaan EventRent
+        </p>
+
+    </div>
+
+
+    <div class="cart-layout">
+
+
+        <!-- =========================
+             DAFTAR KERANJANG
+        ========================== -->
+
+        <div class="cart-card">
+
+            <div class="cart-card-header">
+
+                <h3>
+                    Barang di Keranjang
+                </h3>
+
+                <span
+                    class="cart-count"
+                    id="cart-count">
+
+                    0 item
+
+                </span>
+
+            </div>
+
+
+            <!-- ITEM AKAN MUNCUL DI SINI -->
+
+            <div id="cart-items">
+
+            </div>
+
+
+            <!-- KERANJANG KOSONG -->
+
+            <div
+                class="empty-cart"
+                id="empty-cart">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <h4>Keranjang masih kosong</h4>
+
+                <p>
+                    Silakan tambahkan barang dari halaman Barang.
+                </p>
+
+                <a
+                    href="{% url 'barang' %}"
+                    class="btn btn-primary">
+
+                    Lihat Barang
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RINGKASAN
+        ========================== -->
+
+        <div class="summary-card">
+
+            <div class="summary-header">
+
+                <h3>
+                    Ringkasan
+                </h3>
+
+            </div>
+
+
+            <div class="summary-body">
+
+
+                <label class="date-label">
+
+                    Tanggal Penyewaan
+
+                </label>
+
+
+                <input
+                    type="date"
+                    id="rental-date"
+                    class="date-input">
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Total Item
+                    </span>
+
+                    <span id="summary-count">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Total Sementara
+                    </span>
+
+                    <strong id="cart-subtotal">
+                        Rp 0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Estimasi Total
+                    </span>
+
+                    <span id="cart-total">
+                        Rp 0
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="btn-checkout"
+                    id="checkout-btn"
+                    onclick="checkoutCart()">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                    Buat Penyewaan
+
+                </button>
+
+
+                <button
+                    class="btn-clear"
+                    id="clear-btn"
+                    onclick="clearCart()">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Kosongkan Keranjang
+
+                </button>
+
+
+                <div class="status-tip">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Checkout akan membuat data baru pada
+                    <b>Penyewaan</b> dan
+                    <b>Detail Penyewaan</b>.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast-cart"
+    id="toast-cart">
+
+</div>
+
+
+<script>
+
+    /*
+    ====================================
+    DATA KERANJANG
+    ====================================
+    */
+
+    let cart = JSON.parse(
+        localStorage.getItem("eventrent_cart")
+    ) || [];
+
+
+    /*
+    ====================================
+    FORMAT RUPIAH
+    ====================================
+    */
+
+    function formatRupiah(number) {
+
+        return "Rp " +
+            Number(number).toLocaleString("id-ID");
+
+    }
+
+
+    /*
+    ====================================
+    TOAST
+    ====================================
+    */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById("toast-cart");
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        setTimeout(function () {
+
+            toast.classList.remove("show");
+
+        }, 2500);
+
+    }
+
+
+    /*
+    ====================================
+    SIMPAN CART
+    ====================================
+    */
+
+    function saveCart() {
+
+        localStorage.setItem(
+            "eventrent_cart",
+            JSON.stringify(cart)
+        );
+
+    }
+
+
+    /*
+    ====================================
+    TAMPILKAN KERANJANG
+    ====================================
+    */
+
+    function renderCart() {
+
+        const cartItems =
+            document.getElementById("cart-items");
+
+        const emptyCart =
+            document.getElementById("empty-cart");
+
+        const cartCount =
+            document.getElementById("cart-count");
+
+        const summaryCount =
+            document.getElementById("summary-count");
+
+        const subtotal =
+            document.getElementById("cart-subtotal");
+
+        const total =
+            document.getElementById("cart-total");
+
+        const checkoutBtn =
+            document.getElementById("checkout-btn");
+
+        const clearBtn =
+            document.getElementById("clear-btn");
+
+
+        cartItems.innerHTML = "";
+
+
+        let totalPrice = 0;
+
+        let totalQty = 0;
+
+
+        if (cart.length === 0) {
+
+            emptyCart.style.display = "block";
+
+            checkoutBtn.disabled = true;
+
+            clearBtn.disabled = true;
+
+            cartCount.textContent = "0 item";
+
+            summaryCount.textContent = "0";
+
+            subtotal.textContent = "Rp 0";
+
+            total.textContent = "Rp 0";
+
+            return;
+
+        }
+
+
+        emptyCart.style.display = "none";
+
+
+        cart.forEach(function (item, index) {
+
+
+            const itemTotal =
+                item.price * item.qty;
+
+
+            totalPrice += itemTotal;
+
+            totalQty += item.qty;
+
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "cart-item";
+
+
+            row.innerHTML = `
+
+                <div class="cart-image">
+
+                    ${item.icon || "📦"}
+
+                </div>
+
+
+                <div class="cart-info">
+
+                    <h4>
+                        ${item.name}
+                    </h4>
+
+                    <p>
+                        ${item.brand || ""}
+                        ·
+                        ${formatRupiah(item.price)}
+                        / hari
+                    </p>
+
+                    <span class="condition">
+
+                        Kondisi:
+                        ${item.condition || "Baik"}
+
+                    </span>
+
+                </div>
+
+
+                <div class="qty-box">
+
+                    <button
+                        class="qty-btn"
+                        onclick="changeQty(${index}, -1)">
+
+                        −
+
+                    </button>
+
+
+                    <span class="qty-number">
+
+                        ${item.qty}
+
+                    </span>
+
+
+                    <button
+                        class="qty-btn"
+                        onclick="changeQty(${index}, 1)">
+
+                        +
+
+                    </button>
+
+                </div>
+
+
+                <div class="item-price">
+
+                    ${formatRupiah(itemTotal)}
+
+                    <small>
+                        subtotal
+                    </small>
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="removeItem(${index})">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            `;
+
+
+            cartItems.appendChild(row);
+
+        });
+
+
+        cartCount.textContent =
+            totalQty + " item";
+
+
+        summaryCount.textContent =
+            totalQty;
+
+
+        subtotal.textContent =
+            formatRupiah(totalPrice);
+
+
+        total.textContent =
+            formatRupiah(totalPrice);
+
+
+        checkoutBtn.disabled = false;
+
+        clearBtn.disabled = false;
+
+    }
+
+
+    /*
+    ====================================
+    UBAH JUMLAH BARANG
+    ====================================
+    */
+
+    function changeQty(index, amount) {
+
+        cart[index].qty += amount;
+
+
+        if (cart[index].qty <= 0) {
+
+            cart[index].qty = 1;
+
+        }
+
+
+        saveCart();
+
+        renderCart();
+
+
+        showToast(
+            "Jumlah barang diperbarui"
+        );
+
+    }
+
+
+    /*
+    ====================================
+    HAPUS BARANG
+    ====================================
+    */
+
+    function removeItem(index) {
+
+        const item =
+            cart[index];
+
+
+        cart.splice(index, 1);
+
+
+        saveCart();
+
+        renderCart();
+
+
+        showToast(
+            item.name +
+            " dihapus dari keranjang"
+        );
+
+    }
+
+
+    /*
+    ====================================
+    KOSONGKAN KERANJANG
+    ====================================
+    */
+
+    function clearCart() {
+
+        if (cart.length === 0) {
+
+            return;
+
+        }
+
+
+        if (
+            confirm(
+                "Apakah kamu yakin ingin mengosongkan keranjang?"
+            )
+        ) {
+
+            cart = [];
+
+
+            saveCart();
+
+            renderCart();
+
+
+            showToast(
+                "Keranjang berhasil dikosongkan"
+            );
+
+        }
+
+    }
+
+
+    /*
+    ====================================
+    CHECKOUT
+    ====================================
+    */
+
+    function checkoutCart() {
+
+        if (cart.length === 0) {
+
+            showToast(
+                "Keranjang masih kosong"
+            );
+
+            return;
+
+        }
+
+
+        const rentalDate =
+            document.getElementById(
+                "rental-date"
+            ).value;
+
+
+        if (!rentalDate) {
+
+            showToast(
+                "Silakan pilih tanggal penyewaan"
+            );
+
+            return;
+
+        }
+
+
+        showToast(
+            "Data penyewaan berhasil dibuat"
+        );
+
+
+        setTimeout(function () {
+
+            window.location.href =
+                "{% url 'penyewaan' %}";
+
+        }, 1000);
+
+    }
+
+
+    /*
+    ====================================
+    TANGGAL DEFAULT
+    ====================================
+    */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            const today =
+                new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+            document.getElementById(
+                "rental-date"
+            ).value = today;
+
+
+            renderCart();
+
+        }
+
+    );
+
+</script>
+
 {% endblock %}
