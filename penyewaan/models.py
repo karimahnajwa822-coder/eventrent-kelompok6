@@ -1,70 +1,147 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-<<<<<<< HEAD
+
+# ==========================================
+# 1. PROFIL PENGGUNA
+# ==========================================
+
+class ProfilPengguna(models.Model):
+
+    STATUS_PILIHAN = [
+        ('Menunggu Persetujuan', 'Menunggu Persetujuan'),
+        ('Aktif', 'Aktif'),
+        ('Ditolak', 'Ditolak'),
+    ]
+
+    ROLE_PILIHAN = [
+        ('Petugas', 'Petugas'),
+        ('Penyewa', 'Penyewa'),
+    ]
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    no_hp = models.CharField(
+        max_length=15
+    )
+
+    alamat = models.TextField()
+
+    status_akun = models.CharField(
+        max_length=25,
+        choices=STATUS_PILIHAN,
+        default='Menunggu Persetujuan'
+    )
+
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_PILIHAN,
+        default='Penyewa'
+    )
+
+    def __str__(self):
+        return self.user.username
+
+
+# ==========================================
+# 2. KATEGORI BARANG
+# ==========================================
+
+class Kategori(models.Model):
+
+    nama_kategori = models.CharField(
+        max_length=100
+    )
+
+    def __str__(self):
+        return self.nama_kategori
+
+
+# ==========================================
+# 3. MASTER BARANG / PERALATAN
+# ==========================================
 
 class Barang(models.Model):
+
     KONDISI_CHOICES = [
         ('Baik', 'Baik'),
         ('Sangat Baik', 'Sangat Baik'),
         ('Rusak', 'Rusak'),
     ]
 
-    kode_barang = models.CharField(max_length=10, unique=True, verbose_name="ID")
-    nama_barang = models.CharField(max_length=100)
-    merk = models.CharField(max_length=100)
-    stok = models.PositiveIntegerField(default=0)
-    harga_sewa = models.DecimalField(max_digits=12, decimal_places=2)
-    kondisi = models.CharField(max_length=20, choices=KONDISI_CHOICES, default='Baik')
-    gambar = models.ImageField(upload_to='img/', blank=True, null=True)
+    STATUS_CHOICES = [
+        ('Tersedia', 'Tersedia'),
+        ('Tidak Tersedia', 'Tidak Tersedia'),
+    ]
+
+    kategori = models.ForeignKey(
+        Kategori,
+        on_delete=models.CASCADE,
+        related_name='barang',
+        null=True,
+        blank=True
+    )
+
+    kode_barang = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name="ID",
+        default='BRG-000'
+    )
+
+    nama_barang = models.CharField(
+        max_length=100
+    )
+
+    merk = models.CharField(
+        max_length=100,
+        default='Umum'
+    )
+
+    stok = models.PositiveIntegerField(
+        default=0
+    )
+
+    harga_sewa = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    kondisi = models.CharField(
+        max_length=20,
+        choices=KONDISI_CHOICES,
+        default='Baik'
+    )
+
+    gambar = models.ImageField(
+        upload_to='barang/',
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='Tersedia'
+    )
 
     class Meta:
         ordering = ['kode_barang']
 
     def __str__(self):
         return f"{self.kode_barang} - {self.nama_barang}"
-=======
-# 1. Extend data User untuk status persetujuan akun
-class ProfilPengguna(models.Model):
-    STATUS_PILIHAN = [
-        ('Menunggu Persetujuan', 'Menunggu Persetujuan'),
-        ('Aktif', 'Aktif'),
-        ('Ditolak', 'Ditolak'),
-    ]
-    
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    no_hp = models.CharField(max_length=15)
-    alamat = models.TextField()
-    status_akun = models.CharField(max_length=25, choices=STATUS_PILIHAN, default='Menunggu Persetujuan')
-    role = models.CharField(max_length=20, choices=[('Petugas', 'Petugas'), ('Penyewa', 'Penyewa')], default='Penyewa')
 
-    def __str__(self):
-        return self.user.username
-    
-class Kategori(models.Model):
-    nama_kategori = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.nama_kategori
+# ==========================================
+# 4. TRANSAKSI PENYEWAAN
+# ==========================================
 
-# 2. Tabel Master Barang / Peralatan
-class Barang(models.Model):
-    kategori = models.ForeignKey(
-        Kategori,
-        on_delete=models.CASCADE
-    )
-
-    nama_barang = models.CharField(max_length=100)
-    gambar = models.ImageField(upload_to='barang/')
-    stok = models.IntegerField()
-    harga_hari = models.IntegerField()
-    status = models.CharField(max_length=20, default='Tersedia')
-
-    def __str__(self):
-        return self.nama_barang
-
-# 3. Tabel Transaksi Penyewaan
 class Penyewaan(models.Model):
+
     STATUS_TX = [
         ('Menunggu Persetujuan', 'Menunggu Persetujuan'),
         ('Ditolak', 'Ditolak'),
@@ -74,20 +151,60 @@ class Penyewaan(models.Model):
         ('Sedang Disewa', 'Sedang Disewa'),
         ('Selesai', 'Selesai'),
     ]
-    
-    penyewa = models.ForeignKey(User, on_delete=models.CASCADE)
-    nama_acara = models.CharField(max_length=150)
+
+    penyewa = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    nama_acara = models.CharField(
+        max_length=150
+    )
+
     tanggal_sewa = models.DateField()
+
     tanggal_kembali = models.DateField()
-    barang = models.ForeignKey(Barang, on_delete=models.CASCADE)
-    jumlah = models.IntegerField()
+
+    barang = models.ForeignKey(
+        Barang,
+        on_delete=models.CASCADE
+    )
+
+    jumlah = models.PositiveIntegerField(
+        default=1
+    )
+
     lokasi = models.TextField()
-    catatan = models.TextField(blank=True, null=True)
-    total_harga = models.IntegerField(blank=True, null=True)
-    status_transaksi = models.CharField(max_length=30, choices=STATUS_TX, default='Menunggu Persetujuan')
-    bukti_bayar = models.ImageField(upload_to='bukti_tf/', blank=True, null=True)
-    kondisi_kembali = models.CharField(max_length=30, blank=True, null=True)
+
+    catatan = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    total_harga = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True
+    )
+
+    status_transaksi = models.CharField(
+        max_length=30,
+        choices=STATUS_TX,
+        default='Menunggu Persetujuan'
+    )
+
+    bukti_bayar = models.ImageField(
+        upload_to='bukti_tf/',
+        blank=True,
+        null=True
+    )
+
+    kondisi_kembali = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return f"{self.nama_acara} - {self.penyewa.username}"
->>>>>>> main
