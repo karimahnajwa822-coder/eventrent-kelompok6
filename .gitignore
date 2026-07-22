@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+env/
+venv/
+
+# VS Code
+.vscode/
+
+# Static hasil collectstatic
+staticfiles/
+
+# Media upload
+media/
+
+# Sistem Operasi
+.DS_Store
+Thumbs.db
