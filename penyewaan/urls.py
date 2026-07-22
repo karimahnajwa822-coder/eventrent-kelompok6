@@ -3,26 +3,59 @@ from . import views
 
 urlpatterns = [
 
-    # Login
+    # LOGIN
     path('', views.login_view, name='login'),
 
-    # Register
+    # REGISTER
     path('register/', views.register_view, name='register'),
 
-    # Dashboard
+    # DASHBOARD
     path('dashboard/', views.dashboard, name='dashboard'),
 
-    # Master Data
+    # KATEGORI
     path('kategori/', views.kategori, name='kategori'),
+
+    # BARANG
     path('barang/', views.barang, name='barang'),
 
-    # Penyewaan
-    path('penyewaan/', views.penyewaan, name='penyewaan'),
-    path('penyewaan/tambah/', views.form_penyewaan, name='form_penyewaan'),
+    # DETAIL BARANG
+    path(
+        'detail-barang/',
+        views.detail_barang,
+        name='detail_barang'
+    ),
 
-    # Keranjang
-    path('keranjang/', views.keranjang, name='keranjang'),
+    # MASUKKAN BARANG KE KERANJANG
+    path(
+        'sewa/<int:barang_id>/',
+        views.sewa_barang,
+        name='sewa_barang'
+    ),
 
-    # Laporan
-    path('laporan/', views.laporan, name='laporan'),
+    # PENYEWAAN
+    path(
+        'penyewaan/',
+        views.penyewaan,
+        name='penyewaan'
+    ),
+
+    path(
+        'penyewaan/tambah/',
+        views.form_penyewaan,
+        name='form_penyewaan'
+    ),
+
+    # KERANJANG
+    path(
+        'keranjang/',
+        views.keranjang,
+        name='keranjang'
+    ),
+
+    # LAPORAN
+    path(
+        'laporan/',
+        views.laporan,
+        name='laporan'
+    ),
 ]

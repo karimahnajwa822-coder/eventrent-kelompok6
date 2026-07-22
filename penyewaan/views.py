@@ -40,18 +40,20 @@ def dashboard(request):
 def kategori(request):
     return render(request, 'penyewaan/kategori.html')
 
-
-# ======================
-# BARANG
-# ======================
-
 def barang(request):
-    return render(request, 'penyewaan/barang.html')
+    barang_list = Barang.objects.all()
 
+    context = {
+        'barang_list': barang_list,
+    }
 
-# ======================
-# DETAIL BARANG
-# ======================
+    return render(request, 'penyewaan/barang.html', context)
+
+    return render(
+        request,
+        'penyewaan/barang.html',
+        context
+    )
 
 def detail_barang(request):
     barang_list = Barang.objects.all()
@@ -66,10 +68,6 @@ def detail_barang(request):
         context
     )
 
-
-# ======================
-# SEWA BARANG
-# ======================
 
 def sewa_barang(request, barang_id):
     """
@@ -150,10 +148,6 @@ def keranjang(request):
         context
     )
 
-
-# ======================
-# LAPORAN
-# ======================
 
 def laporan(request):
     return render(
