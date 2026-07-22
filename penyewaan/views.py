@@ -2,6 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from openpyxl import Workbook
 
+from .models import Penyewaan, Barang
+from django.contrib.auth.models import User
+from django.db.models import Sum
+
+
+
 # ======================
 # LOGIN
 # ======================
@@ -73,8 +79,54 @@ def keranjang(request):
 # ======================
 
 def laporan(request):
-    return render(request, 'penyewaan/laporan.html')
 
+        # Mengambil semua data penyewaan
+    data = Penyewaan.objects.select_related(
+        'penyewa',
+        'barang'
+    ).order_by('-tanggal_sewa')
+
+    # Mengambil input tanggal dari form
+    tanggal_awal = request.GET.get('tanggal_awal')
+    tanggal_akhir = request.GET.get('tanggal_akhir')
+
+    # Filter berdasarkan tanggal jika kedua input diisi
+    if tanggal_awal and tanggal_akhir:
+        data = data.filter(
+            tanggal_sewa__range=[tanggal_awal, tanggal_akhir]
+        )
+
+    # Statistik berdasarkan hasil filter
+    total_penyewaan = data.count()
+
+    total_pendapatan = (
+        data.aggregate(total=Sum('total_harga'))['total'] or 0
+    )
+
+    total_barang = Barang.objects.count()
+
+    total_pelanggan = User.objects.count()
+
+    belum_kembali = data.exclude(
+        status_transaksi="Selesai"
+    ).count()
+
+    context = {
+        'laporan': data,
+        'total_penyewaan': total_penyewaan,
+        'total_pendapatan': total_pendapatan,
+        'total_barang': total_barang,
+        'total_pelanggan': total_pelanggan,
+        'belum_kembali': belum_kembali,
+        'tanggal_awal': tanggal_awal,
+        'tanggal_akhir': tanggal_akhir,
+    }
+
+    return render(
+        request,
+        'penyewaan/laporan.html',
+        context
+    )
 # ======================
 # EXPORT EXCEL LAPORAN
 # ======================
@@ -97,30 +149,26 @@ def export_excel(request):
         "Status"
     ])
 
-    # ======================
-    # DATA SEMENTARA (Dummy)
-    # Nanti bisa diganti dengan data database
-    # ======================
-
-    data_laporan = [
-        ["Andi", "Sound System", "20-07-2026", "22-07-2026", 500000, "Selesai"],
-        ["Budi", "Tenda", "21-07-2026", "23-07-2026", 750000, "Dipinjam"],
-        ["Sinta", "Kursi", "22-07-2026", "24-07-2026", 300000, "Selesai"],
-        ["Rina", "Meja", "23-07-2026", "24-07-2026", 200000, "Dipinjam"],
-    ]
+    # Mengambil data dari database
+    data_laporan = Penyewaan.objects.select_related(
+        'penyewa',
+        'barang'
+    )
 
     nomor = 1
 
     for item in data_laporan:
+
         worksheet.append([
             nomor,
-            item[0],
-            item[1],
-            item[2],
-            item[3],
-            item[4],
-            item[5],
+            item.penyewa.username,
+            item.barang.nama_barang,
+            item.tanggal_sewa.strftime("%d-%m-%Y"),
+            item.tanggal_kembali.strftime("%d-%m-%Y"),
+            item.total_harga,
+            item.status_transaksi,
         ])
+
         nomor += 1
 
     # Membuat response download
