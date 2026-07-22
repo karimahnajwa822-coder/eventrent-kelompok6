@@ -1,5 +1,24 @@
+# Python cache
 __pycache__/
 *.py[cod]
+
+# Database
 db.sqlite3
+
+# Virtual Environment
 env/
+venv/
 .venv/
+
+# VS Code
+.vscode/
+
+# Static hasil collectstatic
+staticfiles/
+
+# Media upload
+media/
+
+# Sistem Operasi
+.DS_Store
+Thumbs.db

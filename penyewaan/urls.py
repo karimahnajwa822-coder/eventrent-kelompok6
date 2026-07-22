@@ -39,6 +39,7 @@ urlpatterns = [
         name='penyewaan'
     ),
 
+<<<<<<< HEAD
     path(
         'penyewaan/tambah/',
         views.form_penyewaan,
@@ -58,4 +59,8 @@ urlpatterns = [
         views.laporan,
         name='laporan'
     ),
+=======
+    # unduh e-xel
+    path('laporan/export/excel/', views.export_excel, name='export_excel'),
+>>>>>>> fitur-laporan
 ]
