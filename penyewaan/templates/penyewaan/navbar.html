@@ -1,58 +1,67 @@
 <div class="sidebar">
 
+    <!-- LOGO -->
     <div class="logo">
         <i class="fa-solid fa-calendar-check"></i>
         <h2>EventRent</h2>
     </div>
 
+    <!-- MENU -->
     <ul>
 
+        <!-- DASHBOARD -->
         <li>
             <a href="{% url 'dashboard' %}">
                 <i class="fa-solid fa-house"></i>
-                Dashboard
+                <span>Dashboard</span>
             </a>
         </li>
 
+        <!-- KATEGORI -->
         <li>
             <a href="{% url 'kategori' %}">
                 <i class="fa-solid fa-layer-group"></i>
-                Kategori
+                <span>Kategori</span>
             </a>
         </li>
 
+        <!-- BARANG -->
         <li>
             <a href="{% url 'barang' %}">
                 <i class="fa-solid fa-box-open"></i>
-                Barang
+                <span>Barang</span>
             </a>
         </li>
 
+        <!-- PENYEWAAN -->
         <li>
             <a href="{% url 'penyewaan' %}">
                 <i class="fa-solid fa-cart-shopping"></i>
-                Penyewaan
+                <span>Penyewaan</span>
             </a>
         </li>
 
+        <!-- KERANJANG -->
         <li>
             <a href="{% url 'keranjang' %}">
                 <i class="fa-solid fa-basket-shopping"></i>
-                Keranjang
+                <span>Keranjang</span>
             </a>
         </li>
 
+        <!-- LAPORAN -->
         <li>
             <a href="{% url 'laporan' %}">
                 <i class="fa-solid fa-file-lines"></i>
-                Laporan
+                <span>Laporan</span>
             </a>
         </li>
 
+        <!-- LOGOUT -->
         <li>
             <a href="{% url 'login' %}">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
+                <span>Logout</span>
             </a>
         </li>
 

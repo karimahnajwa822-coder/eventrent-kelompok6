@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+<<<<<<< HEAD
     path('', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
 
@@ -12,9 +13,26 @@ urlpatterns = [
     path('kategori/edit/<int:id>/', views.edit_kategori, name='edit_kategori'),
     path('kategori/hapus/<int:id>/', views.hapus_kategori, name='hapus_kategori'),
 
+=======
+
+    # LOGIN
+    path('', views.login_view, name='login'),
+
+    # REGISTER
+    path('register/', views.register_view, name='register'),
+
+    # DASHBOARD
+    path('dashboard/', views.dashboard, name='dashboard'),
+
+    # KATEGORI
+    path('kategori/', views.kategori, name='kategori'),
+
+    # BARANG
+>>>>>>> 116f10430522e8aed245b5793830060dc2ae083f
     path('barang/', views.barang, name='barang'),
     path('barang/detail/', views.detail_barang, name='detail_barang'),
 
+<<<<<<< HEAD
     path('penyewaan/', views.penyewaan, name='penyewaan'),
     path('form-penyewaan/', views.form_penyewaan, name='form_penyewaan'),
 
@@ -24,4 +42,46 @@ urlpatterns = [
 
     path('keranjang/', views.keranjang, name='keranjang'),
     path('laporan/', views.laporan, name='laporan'),
+=======
+    # DETAIL BARANG
+    path(
+        'detail-barang/',
+        views.detail_barang,
+        name='detail_barang'
+    ),
+
+    # MASUKKAN BARANG KE KERANJANG
+    path(
+        'sewa/<int:barang_id>/',
+        views.sewa_barang,
+        name='sewa_barang'
+    ),
+
+    # PENYEWAAN
+    path(
+        'penyewaan/',
+        views.penyewaan,
+        name='penyewaan'
+    ),
+
+    path(
+        'penyewaan/tambah/',
+        views.form_penyewaan,
+        name='form_penyewaan'
+    ),
+
+    # KERANJANG
+    path(
+        'keranjang/',
+        views.keranjang,
+        name='keranjang'
+    ),
+
+    # LAPORAN
+    path(
+        'laporan/',
+        views.laporan,
+        name='laporan'
+    ),
+>>>>>>> 116f10430522e8aed245b5793830060dc2ae083f
 ]
