@@ -1,5 +1,653 @@
 {% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Form Penyewaan
+{% endblock %}
 
 {% block content %}
-<h1>Halaman Form Penyewaan</h1>
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+    margin:0;
+}
+
+/* ================= CARD ================= */
+
+.card-form{
+
+    background:#fff;
+    border:none;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+
+    color:#0d6efd;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:20px;
+    border-left:5px solid #0d6efd;
+    padding-left:10px;
+
+}
+
+/* ================= INPUT ================= */
+
+.form-label{
+
+    font-weight:600;
+
+}
+
+.form-control,
+.form-select{
+
+    border-radius:10px;
+    min-height:45px;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#0d6efd;
+    box-shadow:0 0 10px rgba(13,110,253,.2);
+
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+
+    border-radius:10px;
+    font-weight:600;
+
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+<div class="page-header">
+
+<div class="page-title">
+
+<h2>Form Penyewaan</h2>
+
+<p>Silakan lengkapi data penyewaan pelanggan.</p>
+
+</div>
+
+<a href="{% url 'penyewaan' %}" class="btn btn-outline-primary">
+
+<i class="fas fa-arrow-left me-2"></i>
+
+Kembali
+
+</a>
+
+</div>
+
+<div class="card-form">
+<form method="POST">
+
+    {% csrf_token %}
+
+<h4 class="section-title">
+
+<i class="fas fa-user me-2"></i>
+
+Data Pelanggan
+
+</h4>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Nama Pelanggan
+
+</label>
+
+<input
+type="text"
+class="form-control"
+placeholder="Masukkan nama pelanggan">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Nomor HP
+
+</label>
+
+<input
+type="text"
+class="form-control"
+placeholder="08xxxxxxxxxx">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Email
+
+</label>
+
+<input
+type="email"
+class="form-control"
+placeholder="email@gmail.com">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Instansi
+
+</label>
+
+<input
+type="text"
+class="form-control"
+placeholder="Opsional">
+
+</div>
+
+<div class="col-12 mb-4">
+
+<label class="form-label">
+
+Alamat
+
+</label>
+
+<textarea
+class="form-control"
+rows="3"
+placeholder="Masukkan alamat lengkap"></textarea>
+
+</div>
+<!-- ================= DATA PENYEWAAN ================= -->
+
+<h4 class="section-title mt-4">
+
+    <i class="fas fa-box me-2"></i>
+
+    Data Penyewaan
+
+</h4>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Kode Penyewaan
+
+        </label>
+
+        <input
+        type="text"
+        class="form-control"
+        value="EVR-001"
+        readonly>
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Tanggal Penyewaan
+
+        </label>
+
+        <input
+        type="date"
+        class="form-control">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Tanggal Pengembalian
+
+        </label>
+
+        <input
+        type="date"
+        class="form-control">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Status Penyewaan
+
+        </label>
+
+        <select class="form-select">
+
+            <option selected disabled>
+                -- Pilih Status --
+            </option>
+
+            <option>
+                Menunggu
+            </option>
+
+            <option>
+                Sedang Disewa
+            </option>
+
+            <option>
+                Selesai
+            </option>
+
+        </select>
+
+    </div>
+
+</div>
+
+<!-- ================= PERALATAN ================= -->
+
+<h4 class="section-title mt-4">
+
+    <i class="fas fa-toolbox me-2"></i>
+
+    Data Peralatan
+
+</h4>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Nama Peralatan
+
+        </label>
+
+        <select class="form-select">
+
+            <option selected disabled>
+
+                -- Pilih Peralatan --
+
+            </option>
+
+            <option>Tenda VIP</option>
+
+            <option>Sound System</option>
+
+            <option>Kursi Futura</option>
+
+            <option>Meja Bulat</option>
+
+            <option>Panggung</option>
+
+            <option>Lighting</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Jumlah
+
+        </label>
+
+        <input
+        type="number"
+        class="form-control"
+        placeholder="0">
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Lama Sewa (Hari)
+
+        </label>
+
+        <input
+        type="number"
+        class="form-control"
+        placeholder="0">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Harga per Hari
+
+        </label>
+
+        <div class="input-group">
+
+            <span class="input-group-text">
+
+                Rp
+
+            </span>
+
+            <input
+            type="number"
+            class="form-control"
+            placeholder="0">
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Total Biaya
+
+        </label>
+
+        <div class="input-group">
+
+            <span class="input-group-text">
+
+                Rp
+
+            </span>
+
+            <input
+            type="number"
+            class="form-control"
+            placeholder="0"
+            readonly>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= PEMBAYARAN ================= -->
+
+<h4 class="section-title mt-4">
+
+    <i class="fas fa-credit-card me-2"></i>
+
+    Pembayaran
+
+</h4>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Metode Pembayaran
+
+        </label>
+
+        <select class="form-select">
+
+            <option selected disabled>
+
+                -- Pilih Metode --
+
+            </option>
+
+            <option>Transfer Bank</option>
+
+            <option>Cash</option>
+
+            <option>QRIS</option>
+
+            <option>E-Wallet</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Status Pembayaran
+
+        </label>
+
+        <select class="form-select">
+
+            <option selected disabled>
+
+                -- Pilih Status --
+
+            </option>
+
+            <option>Lunas</option>
+
+            <option>DP</option>
+
+            <option>Belum Bayar</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-12">
+
+        <label class="form-label">
+
+            Catatan
+
+        </label>
+
+        <textarea
+        class="form-control"
+        rows="4"
+        placeholder="Tambahkan catatan jika diperlukan..."></textarea>
+
+    </div>
+
+</div><!-- ================= RINGKASAN ================= -->
+
+<hr class="my-5">
+
+<div class="row">
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="fas fa-file-invoice-dollar fa-3x text-primary mb-3"></i>
+
+                <h5 class="fw-bold">
+
+                    Ringkasan Penyewaan
+
+                </h5>
+
+                <hr>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Total Barang</span>
+
+                    <strong>1 Item</strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Lama Sewa</span>
+
+                    <strong>0 Hari</strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span>Total Biaya</span>
+
+                    <strong class="text-primary">
+
+                        Rp 0
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold text-primary mb-4">
+
+                    <i class="fas fa-check-circle me-2"></i>
+
+                    Konfirmasi Data
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Pastikan seluruh data pelanggan,
+                    data penyewaan,
+                    dan pembayaran sudah benar
+                    sebelum disimpan.
+
+                </p>
+
+                <div class="alert alert-info">
+
+                    <i class="fas fa-circle-info me-2"></i>
+
+                    Setelah data disimpan,
+                    penyewaan akan masuk ke daftar penyewaan
+                    dan dapat diedit kembali.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= BUTTON ================= -->
+
+<div class="mt-5 d-flex justify-content-end gap-3 flex-wrap">
+
+    <a href="{% url 'penyewaan' %}"
+    class="btn btn-secondary">
+
+        <i class="fas fa-arrow-left me-2"></i>
+
+        Kembali
+
+    </a>
+
+    <button
+    type="reset"
+    class="btn btn-warning text-white">
+
+        <i class="fas fa-rotate-left me-2"></i>
+
+        Reset
+
+    </button>
+
+    <button
+    type="submit"
+    class="btn btn-primary">
+
+        <i class="fas fa-floppy-disk me-2"></i>
+
+        Simpan Penyewaan
+
+    </button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const harga = document.querySelector('input[placeholder="0"]');
+
+</script>
+
+</form>
+
+</div>
+
+</div>
+
 {% endblock %}
