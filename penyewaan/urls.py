@@ -34,5 +34,5 @@ urlpatterns = [
 
     # LAPORAN
     path('laporan/', views.laporan, name='laporan'),
-    
+    path('laporan/export/pdf/', views.export_pdf, name='export_pdf'),
 ]
