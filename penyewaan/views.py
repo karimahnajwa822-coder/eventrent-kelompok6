@@ -13,7 +13,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from .models import Penyewaan
 
 from reportlab.lib.units import cm
-from datetime import datetime
+from datetime import datetime, date
 
 
 def login_view(request):
@@ -136,6 +136,8 @@ def keranjang(request):
     return render(request, 'penyewaan/keranjang.html', context)
 
 
+
+
 def laporan(request):
 
     return render(request, 'penyewaan/laporan.html')
@@ -147,71 +149,185 @@ def laporan(request):
 def export_pdf(request):
     
     print("Jumlah data:", Penyewaan.objects.count())
+
 # ======================
-# DATA DUMMY UNTUK PDF
+# DATA DUMMY LAPORAN
 # ======================
 
-    penyewaan = [
+def get_data_laporan():
+
+    return [
         {
             'penyewa': 'Fatma Auliya',
             'acara': 'Pernikahan',
             'barang': 'Tenda VIP',
             'jumlah': 1,
-            'tanggal_sewa': '20-07-2026',
-            'tanggal_kembali': '22-07-2026',
-            'total': 'Rp 2.500.000',
-            'status': 'Sedang Disewa',
+            'tanggal_sewa': date(2026, 7, 20),
+            'tanggal_kembali': date(2026, 7, 22),
+            'total_harga': 2500000,
+            'status_transaksi': 'Sedang Disewa',
         },
+
         {
             'penyewa': 'Najwa',
             'acara': 'Seminar Kampus',
             'barang': 'Sound System',
             'jumlah': 1,
-            'tanggal_sewa': '18-07-2026',
-            'tanggal_kembali': '20-07-2026',
-            'total': 'Rp 1.200.000',
-            'status': 'Selesai',
+            'tanggal_sewa': date(2026, 7, 18),
+            'tanggal_kembali': date(2026, 7, 20),
+            'total_harga': 1200000,
+            'status_transaksi': 'Selesai',
         },
+
         {
             'penyewa': 'Reva',
             'acara': 'Acara Organisasi',
             'barang': 'Kursi Futura',
             'jumlah': 50,
-            'tanggal_sewa': '17-07-2026',
-            'tanggal_kembali': '21-07-2026',
-            'total': 'Rp 750.000',
-            'status': 'Menunggu',
+            'tanggal_sewa': date(2026, 7, 17),
+            'tanggal_kembali': date(2026, 7, 21),
+            'total_harga': 750000,
+            'status_transaksi': 'Menunggu',
         },
     ]
 
-    # Statistik dummy
+
+# ======================
+# LAPORAN
+# ======================
+
+def laporan(request):
+
+    data_laporan = get_data_laporan()
+
+
+    # FILTER TANGGAL
+    tanggal_awal = request.GET.get('tanggal_awal')
+    tanggal_akhir = request.GET.get('tanggal_akhir')
+
+
+    if tanggal_awal and tanggal_akhir:
+
+        tanggal_awal = datetime.strptime(
+            tanggal_awal,
+            "%Y-%m-%d"
+        ).date()
+
+
+        tanggal_akhir = datetime.strptime(
+            tanggal_akhir,
+            "%Y-%m-%d"
+        ).date()
+
+
+        data_laporan = [
+            item for item in data_laporan
+            if tanggal_awal <= item['tanggal_sewa'] <= tanggal_akhir
+        ]
+
+
+    # CARD STATISTIK
+
+    total_barang = 15
+
+    total_penyewaan = len(data_laporan)
+
+
+    total_pendapatan = sum(
+        item['total_harga']
+        for item in data_laporan
+    )
+
+
+    belum_kembali = len([
+        item for item in data_laporan
+        if item['status_transaksi'] == "Sedang Disewa"
+    ])
+
+
+    context = {
+
+        'laporan': data_laporan,
+
+        'total_barang': total_barang,
+
+        'total_penyewaan': total_penyewaan,
+
+        'total_pendapatan': total_pendapatan,
+
+        'belum_kembali': belum_kembali,
+
+        'tanggal_awal': request.GET.get('tanggal_awal'),
+
+        'tanggal_akhir': request.GET.get('tanggal_akhir'),
+
+    }
+
+
+    return render(
+        request,
+        'penyewaan/laporan.html',
+        context
+    )
+
+
+
+# ======================
+# EXPORT PDF
+# ======================
+
+def export_pdf(request):
+
+    penyewaan = get_data_laporan()
+
+
     total_transaksi = len(penyewaan)
-    total_pendapatan = 'Rp 4.450.000'
 
-    # Response PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="laporan_penyewaan.pdf"'
 
-    # Dokumen
+    total_pendapatan = sum(
+        item['total_harga']
+        for item in penyewaan
+    )
+
+
+    response = HttpResponse(
+        content_type='application/pdf'
+    )
+
+
+    response['Content-Disposition'] = (
+        'attachment; filename="laporan_penyewaan.pdf"'
+    )
+
+
     doc = SimpleDocTemplate(
         response,
         pagesize=landscape(A4)
     )
 
+
     styles = getSampleStyleSheet()
+
     judul = styles['Heading1']
+
     judul.alignment = TA_CENTER
+
 
     elements = []
 
-    elements.append(
-    Paragraph(
-        "<font size=18><b>LAPORAN PENYEWAAN EVENTRENT</b></font>",
-        judul
-    )
-)
 
-    elements.append(Spacer(1, 0.5 * cm))
+    elements.append(
+        Paragraph(
+            "<font size=18><b>LAPORAN PENYEWAAN EVENTRENT</b></font>",
+            judul
+        )
+    )
+
+
+    elements.append(
+        Spacer(1,0.5*cm)
+    )
+
 
     elements.append(
         Paragraph(
@@ -220,6 +336,7 @@ def export_pdf(request):
         )
     )
 
+
     elements.append(
         Paragraph(
             f"Total Transaksi : {total_transaksi}",
@@ -227,20 +344,24 @@ def export_pdf(request):
         )
     )
 
+
     elements.append(
         Paragraph(
-            f"Total Pendapatan : {total_pendapatan}",
+            f"Total Pendapatan : Rp {total_pendapatan:,}",
             styles["Normal"]
         )
     )
 
-    elements.append(Spacer(1, 0.7 * cm))
 
-    # Header tabel
+    elements.append(
+        Spacer(1,0.7*cm)
+    )
+
+
     data = [[
         "No",
         "Penyewa",
-        "Nama Acara",
+        "Acara",
         "Barang",
         "Jumlah",
         "Tanggal Sewa",
@@ -249,46 +370,73 @@ def export_pdf(request):
         "Status"
     ]]
 
-    # Isi tabel
-    for i, item in enumerate(penyewaan, start=1): data.append([ str(i), item['penyewa'], item['acara'], item['barang'], str(item['jumlah']), item['tanggal_sewa'], item['tanggal_kembali'], item['total'], item['status'], ])
 
-    # Membuat tabel
-    table = Table(data, colWidths=[
-    1*cm,
-    3.5*cm,
-    4*cm,
-    3.5*cm,
-    2*cm,
-    3*cm,
-    3*cm,
-    3*cm,
-    3.5*cm
-])
+    for i,item in enumerate(penyewaan,start=1):
 
-    table.setStyle(TableStyle([
+        data.append([
 
-    ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#0d6efd')),
-    ('TEXTCOLOR', (0,0), (-1,0), colors.white),
-    ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-    ('FONTSIZE', (0,0), (-1,0), 10),
+            str(i),
 
-    ('BACKGROUND', (0,1), (-1,-1), colors.whitesmoke),
+            item['penyewa'],
 
-    ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+            item['acara'],
 
-    ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-    ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            item['barang'],
 
-    ('BOTTOMPADDING', (0,0), (-1,0), 10),
-    ('TOPPADDING', (0,0), (-1,-1), 6),
+            str(item['jumlah']),
 
-]))
+            item['tanggal_sewa'].strftime('%d-%m-%Y'),
+
+            item['tanggal_kembali'].strftime('%d-%m-%Y'),
+
+            f"Rp {item['total_harga']:,}",
+
+            item['status_transaksi']
+
+        ])
+
+
+
+    table = Table(
+        data,
+        colWidths=[
+            1*cm,
+            3.5*cm,
+            4*cm,
+            3.5*cm,
+            2*cm,
+            3*cm,
+            3*cm,
+            3*cm,
+            3.5*cm
+        ]
+    )
+
+
+    table.setStyle(
+        TableStyle([
+
+            ('BACKGROUND',(0,0),(-1,0),colors.HexColor('#0d6efd')),
+
+            ('TEXTCOLOR',(0,0),(-1,0),colors.white),
+
+            ('GRID',(0,0),(-1,-1),0.5,colors.grey),
+
+            ('ALIGN',(0,0),(-1,-1),'CENTER'),
+
+        ])
+    )
+
 
     elements.append(table)
 
-    doc.build(elements)
-    elements.append(Spacer(1, 1 * cm))
 
+    doc.build(elements)
+
+
+
+    return response
+  
     elements.append(
         Paragraph(
             "<font size=9 color='grey'>Dokumen ini dibuat secara otomatis oleh sistem EventRent.</font>",
@@ -297,4 +445,3 @@ def export_pdf(request):
     )
     return response
     
-
