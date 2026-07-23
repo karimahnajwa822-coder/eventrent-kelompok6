@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from openpyxl import Workbook
 
+
 from .models import Penyewaan, Barang
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -14,9 +15,7 @@ from django.db.models import Sum
 # ======================
 
 def login_view(request):
-    if request.method == "POST":
-        return redirect('dashboard')
-
+    if request.method == "POST": return redirect('dashboard') 
     return render(request, 'penyewaan/login.html')
 
 
@@ -25,9 +24,7 @@ def login_view(request):
 # ======================
 
 def register_view(request):
-    if request.method == "POST":
-        return redirect('login')
-
+    if request.method == "POST": return redirect('login')
     return render(request, 'penyewaan/register.html')
 
 
@@ -45,6 +42,8 @@ def dashboard(request):
 
 def kategori(request):
     return render(request, 'penyewaan/kategori.html')
+
+
 
 def barang(request):
     barang_list = Barang.objects.all()
