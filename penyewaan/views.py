@@ -60,7 +60,7 @@ def hapus_kategori(request, id):
 # ======================
 # BARANG (hanya SATU fungsi ini!)
 # ======================
-=======
+
     context = {
         'barang_list': barang_list,
     }
