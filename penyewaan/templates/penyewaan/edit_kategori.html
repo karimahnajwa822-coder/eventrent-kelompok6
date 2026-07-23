@@ -1,0 +1,273 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Edit Kategori
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+    margin:0;
+}
+
+/* ================= CARD ================= */
+
+.form-card{
+    background:#fff;
+    border:none;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ================= FORM ================= */
+
+.form-label{
+    font-weight:600;
+    color:#495057;
+}
+
+.form-control,
+.form-select{
+    border-radius:12px;
+    height:48px;
+}
+
+textarea.form-control{
+    height:120px;
+    resize:none;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+    border-radius:10px;
+    font-weight:600;
+    padding:10px 22px;
+}
+
+.btn i{
+    margin-right:6px;
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>Edit Kategori</h2>
+
+            <p>Perbarui informasi kategori barang EventRent.</p>
+
+        </div>
+
+        <a href="{% url 'kategori' %}" class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Kembali
+
+        </a>
+
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+<!-- ================= DATA KATEGORI ================= -->
+
+<div class="row">
+
+    <!-- Kode Kategori -->
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+            Kode Kategori
+        </label>
+
+        <input
+            type="text"
+            class="form-control"
+            name="kode_kategori"
+            value="KTG001"
+            readonly>
+
+    </div>
+
+    <!-- Nama Kategori -->
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+            Nama Kategori
+        </label>
+
+        <input
+            type="text"
+            class="form-control"
+            name="nama_kategori"
+            value="Tenda">
+
+    </div>
+
+    <!-- Status -->
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+            Status
+        </label>
+
+        <select
+            class="form-select"
+            name="status">
+
+            <option selected>
+                Aktif
+            </option>
+
+            <option>
+                Tidak Aktif
+            </option>
+
+        </select>
+
+    </div>
+
+    <!-- Jumlah Barang -->
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+            Jumlah Barang
+        </label>
+
+        <input
+            type="number"
+            class="form-control"
+            value="20"
+            readonly>
+
+    </div>
+
+    <!-- Deskripsi -->
+
+    <div class="col-12 mb-3">
+
+        <label class="form-label">
+            Deskripsi
+        </label>
+
+        <textarea
+            class="form-control"
+            name="deskripsi">Kategori ini digunakan untuk seluruh jenis tenda yang tersedia untuk acara pernikahan, seminar, konser, pameran, maupun kegiatan lainnya.</textarea>
+
+    </div>
+
+</div>
+
+<hr class="my-4">
+<!-- ================= TOMBOL ================= -->
+
+<div class="d-flex justify-content-end gap-2 flex-wrap">
+
+    <!-- Batal -->
+
+    <a href="{% url 'kategori' %}"
+       class="btn btn-secondary">
+
+        <i class="fas fa-arrow-left"></i>
+
+        Kembali
+
+    </a>
+
+    <!-- Reset -->
+
+    <button
+        type="reset"
+        class="btn btn-outline-warning">
+
+        <i class="fas fa-rotate-left"></i>
+
+        Reset
+
+    </button>
+
+    <!-- Simpan -->
+
+    <button
+        type="submit"
+        class="btn btn-primary">
+
+        <i class="fas fa-save"></i>
+
+        Simpan Perubahan
+
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+document.querySelector("form").addEventListener("submit", function(e){
+
+    const nama = document.querySelector("input[name='nama_kategori']").value;
+
+    if(nama.trim()==""){
+
+        alert("Nama kategori tidak boleh kosong!");
+
+        e.preventDefault();
+
+        return;
+
+    }
+
+    alert("Perubahan kategori berhasil disimpan.");
+
+});
+
+</script>
+
+{% endblock %}            

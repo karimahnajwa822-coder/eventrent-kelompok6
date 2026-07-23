@@ -1,24 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponse
-from openpyxl import Workbook
-
-from .models import Penyewaan, Barang
-from django.contrib.auth.models import User
-from django.db.models import Sum
+from .models import Barang
 
 
 
-# ======================
-# LOGIN
-# ======================
 
 def login_view(request):
     if request.method == "POST":
         return redirect('dashboard')
 
     return render(request, 'penyewaan/login.html')
-
 
 # ======================
 # REGISTER
@@ -30,7 +21,6 @@ def register_view(request):
 
     return render(request, 'penyewaan/register.html')
 
-
 # ======================
 # DASHBOARD
 # ======================
@@ -38,6 +28,9 @@ def register_view(request):
 def dashboard(request):
     return render(request, 'penyewaan/dashboard.html')
 
+# ======================
+# KATEGORI
+# ======================
 
 # ======================
 # KATEGORI
@@ -45,6 +38,22 @@ def dashboard(request):
 
 def kategori(request):
     return render(request, 'penyewaan/kategori.html')
+
+
+def form_kategori(request):
+    return render(request, 'penyewaan/form_kategori.html')
+
+
+def detail_kategori(request, id):
+    return render(request, 'penyewaan/detail_kategori.html')
+
+
+def edit_kategori(request, id):
+    return render(request, 'penyewaan/edit_kategori.html')
+
+
+def hapus_kategori(request, id):
+    return redirect('kategori')
 
 def barang(request):
     barang_list = Barang.objects.all()
@@ -55,7 +64,11 @@ def barang(request):
 
     return render(request, 'penyewaan/barang.html', context)
 
-   
+    return render(
+        request,
+        'penyewaan/barang.html',
+        context
+    )
 
 def detail_barang(request):
     barang_list = Barang.objects.all()
@@ -111,6 +124,8 @@ def sewa_barang(request, barang_id):
 
     return redirect('detail_barang')
 
+def detail_barang(request):
+    return render(request, 'penyewaan/detail_barang.html')
 
 # ======================
 # PENYEWAAN
@@ -122,20 +137,32 @@ def penyewaan(request):
         'penyewaan/penyewaan.html'
     )
 
-
 def form_penyewaan(request):
     return render(
         request,
         'penyewaan/form_penyewaan.html'
     )
 
+# ======================
+# DETAIL PENYEWAAN
+# ======================
+
+def detail_penyewaan(request, id):
+    return render(request, 'penyewaan/detail_penyewaan.html')
 
 # ======================
-# KERANJANG
+# EDIT PENYEWAAN
 # ======================
+
+def edit_penyewaan(request, id):
+    return render(request, 'penyewaan/edit_penyewaan.html')
+
+
+def hapus_penyewaan(request, id):
+    return render(request, 'penyewaan/hapus_penyewaan.html')
+
 
 def keranjang(request):
-
     keranjang_data = request.session.get(
         'keranjang',
         {}
@@ -151,127 +178,8 @@ def keranjang(request):
         context
     )
 
-
-# ======================
-# LAPORAN
-# ======================
-
 def laporan(request):
-
-    # Mengambil semua data penyewaan
-    data = Penyewaan.objects.select_related(
-        'penyewa',
-        'barang'
-    ).order_by('-tanggal_sewa')
-
-
-    tanggal_awal = request.GET.get('tanggal_awal')
-    tanggal_akhir = request.GET.get('tanggal_akhir')
-
-
-    if tanggal_awal and tanggal_akhir:
-        data = data.filter(
-            tanggal_sewa__range=[
-                tanggal_awal,
-                tanggal_akhir
-            ]
-        )
-
-
-    total_penyewaan = data.count()
-
-    total_pendapatan = (
-        data.aggregate(
-            total=Sum('total_harga')
-        )['total'] or 0
-    )
-
-
-    total_barang = Barang.objects.count()
-
-    total_pelanggan = User.objects.count()
-
-
-    belum_kembali = data.exclude(
-        status_transaksi="Selesai"
-    ).count()
-
-
-    context = {
-        'laporan': data,
-        'total_penyewaan': total_penyewaan,
-        'total_pendapatan': total_pendapatan,
-        'total_barang': total_barang,
-        'total_pelanggan': total_pelanggan,
-        'belum_kembali': belum_kembali,
-        'tanggal_awal': tanggal_awal,
-        'tanggal_akhir': tanggal_akhir,
-    }
-
-
     return render(
         request,
-        'penyewaan/laporan.html',
-        context
+        'penyewaan/laporan.html'
     )
-
-
-# ======================
-# EXPORT EXCEL LAPORAN
-# ======================
-
-def export_excel(request):
-
-    workbook = Workbook()
-
-    worksheet = workbook.active
-    worksheet.title = "Laporan Penyewaan"
-
-
-    worksheet.append([
-        "No",
-        "Nama Pelanggan",
-        "Peralatan",
-        "Tanggal Pinjam",
-        "Tanggal Kembali",
-        "Total Bayar",
-        "Status"
-    ])
-
-
-    data_laporan = Penyewaan.objects.select_related(
-        'penyewa',
-        'barang'
-    )
-
-
-    nomor = 1
-
-    for item in data_laporan:
-
-        worksheet.append([
-            nomor,
-            item.penyewa.username,
-            item.barang.nama_barang,
-            item.tanggal_sewa.strftime("%d-%m-%Y"),
-            item.tanggal_kembali.strftime("%d-%m-%Y"),
-            item.total_harga,
-            item.status_transaksi,
-        ])
-
-        nomor += 1
-
-
-    response = HttpResponse(
-        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
-
-
-    response["Content-Disposition"] = (
-        'attachment; filename="Laporan_Penyewaan.xlsx"'
-    )
-
-
-    workbook.save(response)
-
-    return response

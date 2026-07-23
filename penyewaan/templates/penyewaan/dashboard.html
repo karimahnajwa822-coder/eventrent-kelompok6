@@ -1,4 +1,5 @@
 {% extends 'penyewaan/base.html' %}
+{% load static %}
 
 {% block title %}
 Dashboard
@@ -6,9 +7,806 @@ Dashboard
 
 {% block content %}
 
-<div style="padding:40px;">
-    <h1>Dashboard</h1>
-    <p>Halaman dashboard sedang dikerjakan oleh Fatma.</p>
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+    margin:0;
+}
+
+/* ================= CARD ================= */
+
+.dashboard-card{
+    background:#ffffff;
+    border-radius:18px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+    height:100%;
+    border:none;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(13,110,253,.18);
+}
+
+.dashboard-card small{
+    color:#6c757d;
+    font-size:14px;
+}
+
+.dashboard-card h3{
+    margin-top:5px;
+    margin-bottom:0;
+    font-weight:700;
+    color:#212529;
+}
+
+.icon-box{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:28px;
+}
+
+.bg-blue{
+    background:#0d6efd;
+}
+
+.bg-green{
+    background:#198754;
+}
+
+.bg-orange{
+    background:#fd7e14;
+}
+
+.bg-red{
+    background:#dc3545;
+}
+
+.bg-purple{
+    background:#6f42c1;
+}
+
+.bg-darkblue{
+    background:#0dcaf0;
+}
+
+/* ================= TABLE ================= */
+
+.card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:linear-gradient(90deg,#0d6efd,#3d8bfd);
+    color:#fff;  
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-header .btn{
+    border-radius:8px;
+    font-weight:600;
+    padding:6px 14px;
+}
+
+.table thead{
+    background:#eef5ff;
+}
+
+.table thead th{
+    color:#0d6efd;
+    border:none;
+    padding:16px;
+}
+
+.table tbody td{
+    padding:16px;
+    vertical-align:middle;
+}
+
+.table-hover tbody tr:hover{
+    background:#f7fbff;
+}
+
+.badge{
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+/* ================= ACTIVITY ================= */
+
+.activity-card{
+
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.activity-item{
+
+    display:flex;
+    align-items:center;
+    margin-bottom:20px;
+
+}
+
+.activity-icon{
+
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    margin-right:15px;
+
+}
+.activity-icon.bg-primary{
+    background:#0d6efd !important;
+}
+
+.activity-icon.bg-success{
+    background:#198754 !important;
+}
+
+.activity-icon.bg-warning{
+    background:#ffc107 !important;
+    color:#000;
+}
+
+.activity-icon.bg-danger{
+    background:#dc3545 !important;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.page-header{
+
+flex-direction:column;
+align-items:flex-start;
+
+}
+
+.dashboard-card{
+
+padding:18px;
+
+}
+
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+<!-- HEADER -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold text-primary mb-1">
+            Dashboard EventRent
+        </h2>
+
+        <p class="text-secondary mb-0">
+            Selamat datang di Sistem Penyewaan Peralatan Acara.
+        </p>
+
+    </div>
+
+    <div class="text-end">
+
+        <a href="{% url 'detail_barang' %}" class="btn btn-primary mb-2">
+            <i class="fas fa-box-open me-2"></i>
+            Lihat Barang
+        </a>
+
+        <h6 class="text-muted mb-1">Hari Ini</h6>
+        <h5 class="fw-bold">20 Juli 2026</h5>
+
+    </div>
+
+</div> 
+
+<!-- CARD STATISTIK -->
+
+<div class="row g-4">
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Total Peralatan</small>
+
+<h3>120</h3>
+
+</div>
+
+<div class="icon-box bg-blue">
+
+<i class="fas fa-box"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Total Pelanggan</small>
+
+<h3>75</h3>
+
+</div>
+
+<div class="icon-box bg-green">
+
+<i class="fas fa-users"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Total Penyewaan</small>
+
+<h3>53</h3>
+
+</div>
+
+<div class="icon-box bg-orange">
+
+<i class="fas fa-calendar-check"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Sedang Disewa</small>
+
+<h3>16</h3>
+
+</div>
+
+<div class="icon-box bg-darkblue">
+
+<i class="fas fa-cart-shopping"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Menunggu Pembayaran</small>
+
+<h3>7</h3>
+
+</div>
+
+<div class="icon-box bg-red">
+
+<i class="fas fa-money-bill-wave"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="dashboard-card">
+
+<div>
+
+<small>Pengembalian Hari Ini</small>
+
+<h3>4</h3>
+
+</div>
+
+<div class="icon-box bg-purple">
+
+<i class="fas fa-arrow-rotate-left"></i>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- ================= TABEL PENYEWAAN TERBARU ================= -->
+
+<div class="card mt-5">
+
+    <div class="card-header">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0 text-white">
+                <i class="fas fa-list me-2"></i>
+                Penyewaan Terbaru
+            </h5>
+
+            <a href="{% url 'penyewaan' %}" class="btn btn-light btn-sm">
+                <i class="fas fa-eye me-2"></i>
+                Lihat Semua
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Pelanggan</th>
+                    <th>Peralatan</th>
+                    <th>Tanggal Sewa</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th width="180">Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>1</td>
+
+                    <td>
+                        <strong>EVR-001</strong>
+                    </td>
+
+                    <td>Fatma Auliya</td>
+
+                    <td>Tenda VIP</td>
+
+                    <td>20 Juli 2026</td>
+
+                    <td>Rp1.500.000</td>
+
+                    <td>
+
+                        <span class="badge bg-primary">
+
+                            Sedang Disewa
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'detail_penyewaan' 1 %}"
+                           class="btn btn-info btn-sm">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{% url 'edit_penyewaan' 1 %}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="fas fa-pen"></i>
+
+                        </a>
+
+                        <a href="{% url 'hapus_penyewaan' 1 %}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>2</td>
+
+                    <td>
+
+                        <strong>EVR-002</strong>
+
+                    </td>
+
+                    <td>Najwa</td>
+
+                    <td>Sound System</td>
+
+                    <td>18 Juli 2026</td>
+
+                    <td>Rp2.000.000</td>
+
+                    <td>
+
+                        <span class="badge bg-success">
+
+                            Selesai
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'detail_penyewaan' 2 %}"
+                           class="btn btn-info btn-sm">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{% url 'edit_penyewaan' 2 %}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="fas fa-pen"></i>
+
+                        </a>
+
+                        <a href="{% url 'hapus_penyewaan' 2 %}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>3</td>
+
+                    <td>
+
+                        <strong>EVR-003</strong>
+
+                    </td>
+
+                    <td>Reva</td>
+
+                    <td>Kursi Futura</td>
+
+                    <td>17 Juli 2026</td>
+
+                    <td>Rp850.000</td>
+
+                    <td>
+
+                        <span class="badge bg-warning text-dark">
+
+                            Menunggu
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'detail_penyewaan' 3 %}"
+                           class="btn btn-info btn-sm">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{% url 'edit_penyewaan' 3 %}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="fas fa-pen"></i>
+
+                        </a>
+
+                        <a href="{% url 'hapus_penyewaan' 3 %}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</div>
+<!-- ================= AKTIVITAS TERBARU ================= -->
+
+<div class="row mt-5">
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="activity-card">
+
+            <h5 class="fw-bold mb-4">
+
+                <i class="fas fa-clock text-primary me-2"></i>
+
+                Aktivitas Terbaru
+
+            </h5>
+
+            <div class="activity-item">
+
+                <div class="activity-icon bg-primary">
+
+                    <i class="fas fa-plus"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Penyewaan Baru</strong><br>
+
+                    <small class="text-muted">
+
+                        Fatma Auliya menyewa Tenda VIP.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="activity-item">
+
+                <div class="activity-icon bg-success">
+
+                    <i class="fas fa-check"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Pembayaran Berhasil</strong><br>
+
+                    <small class="text-muted">
+
+                        Najwa telah melunasi pembayaran.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="activity-item">
+
+                <div class="activity-icon bg-warning">
+
+                    <i class="fas fa-truck"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Pengembalian Barang</strong><br>
+
+                    <small class="text-muted">
+
+                        Kursi Futura telah dikembalikan.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="activity-item mb-0">
+
+                <div class="activity-icon bg-danger">
+
+                    <i class="fas fa-money-bill-wave"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Menunggu Pembayaran</strong><br>
+
+                    <small class="text-muted">
+
+                        Reva belum melakukan pembayaran.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RINGKASAN ================= -->
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="activity-card">
+
+            <h5 class="fw-bold mb-4">
+
+                <i class="fas fa-chart-pie text-primary me-2"></i>
+
+                Ringkasan Hari Ini
+
+            </h5>
+
+            <table class="table">
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Total Penyewaan</td>
+
+                        <td class="text-end">
+
+                            <strong>53</strong>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Penyewaan Aktif</td>
+
+                        <td class="text-end">
+
+                            <strong>16</strong>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Pengembalian Hari Ini</td>
+
+                        <td class="text-end">
+
+                            <strong>4</strong>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Menunggu Pembayaran</td>
+
+                        <td class="text-end">
+
+                            <strong>7</strong>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Total Pendapatan</td>
+
+                        <td class="text-end text-success">
+
+                            <strong>Rp18.750.000</strong>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 </div>
 
 {% endblock %}
