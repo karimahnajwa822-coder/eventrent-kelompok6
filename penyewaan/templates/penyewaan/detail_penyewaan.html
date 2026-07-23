@@ -1,0 +1,708 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Detail Penyewaan
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+    margin:0;
+}
+
+/* ================= CARD ================= */
+
+.card-detail{
+    background:#fff;
+    border:none;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    padding:30px;
+    margin-bottom:25px;
+}
+
+.section-title{
+    color:#0d6efd;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:20px;
+    border-left:5px solid #0d6efd;
+    padding-left:10px;
+}
+
+.info-item{
+    margin-bottom:18px;
+}
+
+.info-label{
+    font-size:14px;
+    color:#6c757d;
+    margin-bottom:4px;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:600;
+    color:#212529;
+}
+
+.badge-status{
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>
+
+                Detail Penyewaan
+
+            </h2>
+
+            <p>
+
+                Informasi lengkap data penyewaan pelanggan.
+
+            </p>
+
+        </div>
+
+        <a href="{% url 'penyewaan' %}"
+           class="btn btn-outline-primary">
+
+            <i class="fas fa-arrow-left me-2"></i>
+
+            Kembali
+
+        </a>
+
+    </div>
+
+    <!-- DATA PELANGGAN -->
+
+    <div class="card-detail">
+
+        <h4 class="section-title">
+
+            <i class="fas fa-user me-2"></i>
+
+            Data Pelanggan
+
+        </h4>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Nama Pelanggan
+
+                    </div>
+
+                    <div class="info-value">
+
+                        Fatma Auliya
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Nomor HP
+
+                    </div>
+
+                    <div class="info-value">
+
+                        081234567890
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Email
+
+                    </div>
+
+                    <div class="info-value">
+
+                        fatma@gmail.com
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Instansi
+
+                    </div>
+
+                    <div class="info-value">
+
+                        Universitas Nurul Jadid
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Alamat
+
+                    </div>
+
+                    <div class="info-value">
+
+                        Jl. Raya Paiton, Kabupaten Probolinggo
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ================= DATA PENYEWAAN ================= -->
+
+<div class="card-detail">
+
+    <h4 class="section-title">
+
+        <i class="fas fa-calendar-check me-2"></i>
+
+        Data Penyewaan
+
+    </h4>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Kode Penyewaan
+
+                </div>
+
+                <div class="info-value">
+
+                    <span class="badge bg-primary">
+
+                        EVR-001
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Tanggal Penyewaan
+
+                </div>
+
+                <div class="info-value">
+
+                    20 Juli 2026
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Tanggal Pengembalian
+
+                </div>
+
+                <div class="info-value">
+
+                    22 Juli 2026
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Status Penyewaan
+
+                </div>
+
+                <div class="info-value">
+
+                    <span class="badge bg-success badge-status">
+
+                        Sedang Disewa
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Lama Penyewaan
+
+                </div>
+
+                <div class="info-value">
+
+                    2 Hari
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= DATA PERALATAN ================= -->
+
+<div class="card-detail">
+
+    <h4 class="section-title">
+
+        <i class="fas fa-box-open me-2"></i>
+
+        Data Peralatan
+
+    </h4>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered align-middle">
+
+            <thead class="table-primary text-center">
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Nama Peralatan</th>
+
+                    <th>Jumlah</th>
+
+                    <th>Harga / Hari</th>
+
+                    <th>Lama</th>
+
+                    <th>Subtotal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>1</td>
+
+                    <td>
+
+                        <i class="fas fa-campground text-primary me-2"></i>
+
+                        Tenda VIP
+
+                    </td>
+
+                    <td>2 Unit</td>
+
+                    <td>Rp250.000</td>
+
+                    <td>2 Hari</td>
+
+                    <td>
+
+                        <strong>
+
+                            Rp500.000
+
+                        </strong>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>2</td>
+
+                    <td>
+
+                        <i class="fas fa-volume-up text-success me-2"></i>
+
+                        Sound System
+
+                    </td>
+
+                    <td>1 Unit</td>
+
+                    <td>Rp300.000</td>
+
+                    <td>2 Hari</td>
+
+                    <td>
+
+                        <strong>
+
+                            Rp600.000
+
+                        </strong>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Ringkasan -->
+
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+
+            <div class="alert alert-primary">
+
+                <strong>
+
+                    Total Item :
+
+                </strong>
+
+                3 Unit
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="alert alert-success text-end">
+
+                <strong>
+
+                    Total Biaya :
+
+                </strong>
+
+                Rp1.100.000
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= PEMBAYARAN ================= -->
+
+<div class="card-detail">
+
+    <h4 class="section-title">
+
+        <i class="fas fa-credit-card me-2"></i>
+
+        Informasi Pembayaran
+
+    </h4>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Metode Pembayaran
+
+                </div>
+
+                <div class="info-value">
+
+                    Transfer Bank
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Status Pembayaran
+
+                </div>
+
+                <div class="info-value">
+
+                    <span class="badge bg-success badge-status">
+
+                        Lunas
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="info-item">
+
+                <div class="info-label">
+
+                    Total Dibayar
+
+                </div>
+
+                <div class="info-value text-primary fw-bold">
+
+                    Rp1.100.000
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= CATATAN ================= -->
+
+<div class="card-detail">
+
+    <h4 class="section-title">
+
+        <i class="fas fa-note-sticky me-2"></i>
+
+        Catatan Penyewaan
+
+    </h4>
+
+    <div class="alert alert-light border">
+
+        Barang akan dikirim pada tanggal
+        <strong>20 Juli 2026 pukul 08.00 WIB</strong>.
+        Mohon pelanggan memastikan lokasi pengiriman sudah siap.
+
+    </div>
+
+</div>
+
+<!-- ================= STATUS ================= -->
+
+<div class="card-detail">
+
+    <h4 class="section-title">
+
+        <i class="fas fa-list-check me-2"></i>
+
+        Status Penyewaan
+
+    </h4>
+
+    <div class="row text-center">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="p-3 rounded bg-primary text-white">
+
+                <i class="fas fa-file-circle-check fa-2x mb-2"></i>
+
+                <h6 class="mb-0">
+
+                    Data Dibuat
+
+                </h6>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="p-3 rounded bg-success text-white">
+
+                <i class="fas fa-truck fa-2x mb-2"></i>
+
+                <h6 class="mb-0">
+
+                    Sedang Disewa
+
+                </h6>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="p-3 rounded bg-secondary text-white">
+
+                <i class="fas fa-check-circle fa-2x mb-2"></i>
+
+                <h6 class="mb-0">
+
+                    Menunggu Pengembalian
+
+                </h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= TOMBOL ================= -->
+
+<div class="d-flex justify-content-end gap-3 flex-wrap mb-4">
+
+    <a href="{% url 'penyewaan' %}"
+       class="btn btn-secondary">
+
+        <i class="fas fa-arrow-left me-2"></i>
+
+        Kembali
+
+    </a>
+
+    <a href="#"
+       class="btn btn-warning text-white">
+
+        <i class="fas fa-pen me-2"></i>
+
+        Edit
+
+    </a>
+
+    <button
+        onclick="window.print()"
+        class="btn btn-primary">
+
+        <i class="fas fa-print me-2"></i>
+
+        Cetak
+
+    </button>
+
+</div>
+
+</div>
+
+{% endblock %}

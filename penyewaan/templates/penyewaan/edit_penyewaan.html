@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Form Penyewaan
+Edit Penyewaan
 {% endblock %}
 
 {% block content %}
@@ -13,8 +13,6 @@ body{
     background:#f4f7fc;
     font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
 }
-
-/* ================= HEADER ================= */
 
 .page-header{
     display:flex;
@@ -27,7 +25,6 @@ body{
 .page-title h2{
     color:#0d6efd;
     font-weight:700;
-    margin-bottom:5px;
 }
 
 .page-title p{
@@ -35,62 +32,42 @@ body{
     margin:0;
 }
 
-/* ================= CARD ================= */
-
 .card-form{
-
     background:#fff;
     border:none;
     border-radius:18px;
     padding:30px;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
-
 }
 
-/* ================= SECTION ================= */
-
 .section-title{
-
     color:#0d6efd;
     font-size:20px;
     font-weight:700;
-    margin-bottom:20px;
     border-left:5px solid #0d6efd;
     padding-left:10px;
-
+    margin-bottom:25px;
 }
 
-/* ================= INPUT ================= */
-
 .form-label{
-
     font-weight:600;
-
 }
 
 .form-control,
 .form-select{
-
     border-radius:10px;
     min-height:45px;
-
 }
 
 .form-control:focus,
 .form-select:focus{
-
     border-color:#0d6efd;
     box-shadow:0 0 10px rgba(13,110,253,.2);
-
 }
 
-/* ================= BUTTON ================= */
-
 .btn{
-
     border-radius:10px;
     font-weight:600;
-
 }
 
 </style>
@@ -101,9 +78,19 @@ body{
 
 <div class="page-title">
 
-<h2>Form Penyewaan</h2>
+<h2>
 
-<p>Silakan lengkapi data penyewaan pelanggan.</p>
+<i class="fas fa-pen me-2"></i>
+
+Edit Penyewaan
+
+</h2>
+
+<p>
+
+Ubah data penyewaan pelanggan.
+
+</p>
 
 </div>
 
@@ -118,9 +105,10 @@ Kembali
 </div>
 
 <div class="card-form">
+
 <form method="POST">
 
-    {% csrf_token %}
+{% csrf_token %}
 
 <h4 class="section-title">
 
@@ -143,7 +131,7 @@ Nama Pelanggan
 <input
 type="text"
 class="form-control"
-placeholder="Masukkan nama pelanggan">
+value="Fatma Auliya">
 
 </div>
 
@@ -158,7 +146,7 @@ Nomor HP
 <input
 type="text"
 class="form-control"
-placeholder="08xxxxxxxxxx">
+value="081234567890">
 
 </div>
 
@@ -173,7 +161,7 @@ Email
 <input
 type="email"
 class="form-control"
-placeholder="email@gmail.com">
+value="fatma@gmail.com">
 
 </div>
 
@@ -188,11 +176,11 @@ Instansi
 <input
 type="text"
 class="form-control"
-placeholder="Opsional">
+value="Universitas Nurul Jadid">
 
 </div>
 
-<div class="col-12 mb-4">
+<div class="col-12">
 
 <label class="form-label">
 
@@ -202,15 +190,16 @@ Alamat
 
 <textarea
 class="form-control"
-rows="3"
-placeholder="Masukkan alamat lengkap"></textarea>
+rows="3">Jl. Raya Paiton, Kabupaten Probolinggo</textarea>
+
+</div>
 
 </div>
 <!-- ================= DATA PENYEWAAN ================= -->
 
 <h4 class="section-title mt-4">
 
-    <i class="fas fa-box me-2"></i>
+    <i class="fas fa-calendar-alt me-2"></i>
 
     Data Penyewaan
 
@@ -218,7 +207,7 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
 <div class="row">
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
 
         <label class="form-label">
 
@@ -234,7 +223,7 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
 
         <label class="form-label">
 
@@ -244,11 +233,12 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <input
         type="date"
-        class="form-control">
+        class="form-control"
+        value="2026-07-20">
 
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
 
         <label class="form-label">
 
@@ -258,7 +248,8 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <input
         type="date"
-        class="form-control">
+        class="form-control"
+        value="2026-07-22">
 
     </div>
 
@@ -272,33 +263,38 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <select class="form-select">
 
-            <option selected disabled>
-                -- Pilih Status --
-            </option>
+            <option>Menunggu</option>
 
-            <option>
-                Menunggu
-            </option>
+            <option selected>Sedang Disewa</option>
 
-            <option>
-                Sedang Disewa
-            </option>
-
-            <option>
-                Selesai
-            </option>
+            <option>Selesai</option>
 
         </select>
 
     </div>
 
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Lama Penyewaan
+
+        </label>
+
+        <input
+        type="number"
+        class="form-control"
+        value="2">
+
+    </div>
+
 </div>
 
-<!-- ================= PERALATAN ================= -->
+<!-- ================= DATA PERALATAN ================= -->
 
 <h4 class="section-title mt-4">
 
-    <i class="fas fa-toolbox me-2"></i>
+    <i class="fas fa-box-open me-2"></i>
 
     Data Peralatan
 
@@ -316,23 +312,15 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <select class="form-select">
 
-            <option selected disabled>
-
-                -- Pilih Peralatan --
-
-            </option>
-
             <option>Tenda VIP</option>
 
-            <option>Sound System</option>
+            <option selected>Sound System</option>
 
             <option>Kursi Futura</option>
 
-            <option>Meja Bulat</option>
+            <option>Lighting</option>
 
             <option>Panggung</option>
-
-            <option>Lighting</option>
 
         </select>
 
@@ -349,7 +337,7 @@ placeholder="Masukkan alamat lengkap"></textarea>
         <input
         type="number"
         class="form-control"
-        placeholder="0">
+        value="2">
 
     </div>
 
@@ -357,22 +345,26 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <label class="form-label">
 
-            Lama Sewa (Hari)
+            Harga / Hari
 
         </label>
 
         <input
         type="number"
         class="form-control"
-        placeholder="0">
+        value="300000">
 
     </div>
+
+</div>
+
+<div class="row">
 
     <div class="col-md-6 mb-3">
 
         <label class="form-label">
 
-            Harga per Hari
+            Total Harga
 
         </label>
 
@@ -385,34 +377,9 @@ placeholder="Masukkan alamat lengkap"></textarea>
             </span>
 
             <input
-            type="number"
+            type="text"
             class="form-control"
-            placeholder="0">
-
-        </div>
-
-    </div>
-
-    <div class="col-md-6 mb-3">
-
-        <label class="form-label">
-
-            Total Biaya
-
-        </label>
-
-        <div class="input-group">
-
-            <span class="input-group-text">
-
-                Rp
-
-            </span>
-
-            <input
-            type="number"
-            class="form-control"
-            placeholder="0"
+            value="600000"
             readonly>
 
         </div>
@@ -443,15 +410,9 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <select class="form-select">
 
-            <option selected disabled>
-
-                -- Pilih Metode --
-
-            </option>
-
-            <option>Transfer Bank</option>
-
             <option>Cash</option>
+
+            <option selected>Transfer Bank</option>
 
             <option>QRIS</option>
 
@@ -471,46 +432,44 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
         <select class="form-select">
 
-            <option selected disabled>
-
-                -- Pilih Status --
-
-            </option>
-
-            <option>Lunas</option>
+            <option>Belum Bayar</option>
 
             <option>DP</option>
 
-            <option>Belum Bayar</option>
+            <option selected>Lunas</option>
 
         </select>
 
     </div>
 
-    <div class="col-12">
+</div>
 
-        <label class="form-label">
+<!-- ================= CATATAN ================= -->
 
-            Catatan
+<h4 class="section-title mt-4">
 
-        </label>
+    <i class="fas fa-note-sticky me-2"></i>
 
-        <textarea
-        class="form-control"
-        rows="4"
-        placeholder="Tambahkan catatan jika diperlukan..."></textarea>
+    Catatan
 
-    </div>
+</h4>
 
-</div><!-- ================= RINGKASAN ================= -->
+<div class="mb-3">
+
+    <textarea
+    class="form-control"
+    rows="5">Barang akan dikirim pada tanggal 20 Juli 2026 pukul 08.00 WIB. Mohon pelanggan memastikan lokasi sudah siap dan mudah diakses kendaraan pengangkut.</textarea>
+
+</div>
+<!-- ================= RINGKASAN ================= -->
 
 <hr class="my-5">
 
 <div class="row">
 
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-4">
 
-        <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card border-0 shadow-sm rounded-4">
 
             <div class="card-body text-center">
 
@@ -518,7 +477,7 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
                 <h5 class="fw-bold">
 
-                    Ringkasan Penyewaan
+                    Ringkasan
 
                 </h5>
 
@@ -526,29 +485,59 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
                 <div class="d-flex justify-content-between mb-2">
 
-                    <span>Total Barang</span>
+                    <span>Kode</span>
 
-                    <strong>1 Item</strong>
+                    <strong>EVR-001</strong>
 
                 </div>
 
                 <div class="d-flex justify-content-between mb-2">
 
-                    <span>Lama Sewa</span>
+                    <span>Pelanggan</span>
 
-                    <strong>0 Hari</strong>
+                    <strong>Fatma Auliya</strong>
 
                 </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Barang</span>
+
+                    <strong>Sound System</strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Jumlah</span>
+
+                    <strong>2 Unit</strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Status</span>
+
+                    <span class="badge bg-success">
+
+                        Sedang Disewa
+
+                    </span>
+
+                </div>
+
+                <hr>
 
                 <div class="d-flex justify-content-between">
 
                     <span>Total Biaya</span>
 
-                    <strong class="text-primary">
+                    <h5 class="text-primary fw-bold">
 
-                        Rp 0
+                        Rp600.000
 
-                    </strong>
+                    </h5>
 
                 </div>
 
@@ -558,36 +547,33 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-lg-8 mb-4">
 
         <div class="card border-0 shadow-sm rounded-4">
 
             <div class="card-body">
 
-                <h5 class="fw-bold text-primary mb-4">
-
-                    <i class="fas fa-check-circle me-2"></i>
-
-                    Konfirmasi Data
-
-                </h5>
-
-                <p class="text-muted">
-
-                    Pastikan seluruh data pelanggan,
-                    data penyewaan,
-                    dan pembayaran sudah benar
-                    sebelum disimpan.
-
-                </p>
-
-                <div class="alert alert-info">
+                <h5 class="text-primary fw-bold mb-3">
 
                     <i class="fas fa-circle-info me-2"></i>
 
-                    Setelah data disimpan,
-                    penyewaan akan masuk ke daftar penyewaan
-                    dan dapat diedit kembali.
+                    Informasi
+
+                </h5>
+
+                <div class="alert alert-warning">
+
+                    Pastikan seluruh data sudah benar sebelum
+                    melakukan perubahan data penyewaan.
+
+                </div>
+
+                <div class="alert alert-success">
+
+                    Perubahan data akan langsung tersimpan
+                    setelah tombol
+                    <strong>Update Penyewaan</strong>
+                    ditekan.
 
                 </div>
 
@@ -601,20 +587,20 @@ placeholder="Masukkan alamat lengkap"></textarea>
 
 <!-- ================= BUTTON ================= -->
 
-<div class="mt-5 d-flex justify-content-end gap-3 flex-wrap">
+<div class="d-flex justify-content-end gap-3 flex-wrap mt-4">
 
     <a href="{% url 'penyewaan' %}"
-    class="btn btn-secondary">
+       class="btn btn-secondary">
 
         <i class="fas fa-arrow-left me-2"></i>
 
-        Kembali
+        Batal
 
     </a>
 
     <button
-    type="reset"
-    class="btn btn-warning text-white">
+        type="reset"
+        class="btn btn-warning text-white">
 
         <i class="fas fa-rotate-left me-2"></i>
 
@@ -623,26 +609,16 @@ placeholder="Masukkan alamat lengkap"></textarea>
     </button>
 
     <button
-    type="submit"
-    class="btn btn-primary">
+        type="submit"
+        class="btn btn-primary">
 
         <i class="fas fa-floppy-disk me-2"></i>
 
-        Simpan Penyewaan
+        Update Penyewaan
 
     </button>
 
 </div>
-
-</div>
-
-</div>
-
-<script>
-
-const harga = document.querySelector('input[placeholder="0"]');
-
-</script>
 
 </form>
 

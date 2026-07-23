@@ -1,0 +1,252 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Detail Kategori
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+/* Header */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+}
+
+/* Card */
+
+.detail-card{
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* Label */
+
+.detail-label{
+    color:#6c757d;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.detail-value{
+    font-size:17px;
+    font-weight:600;
+    color:#212529;
+    margin-bottom:25px;
+}
+
+/* Badge */
+
+.badge{
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+/* Button */
+
+.btn{
+    border-radius:10px;
+    font-weight:600;
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>Detail Kategori</h2>
+
+            <p>Informasi lengkap kategori barang EventRent.</p>
+
+        </div>
+
+        <a href="{% url 'kategori' %}" class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left me-2"></i>
+
+            Kembali
+
+        </a>
+
+    </div>
+
+    <div class="detail-card">
+<div class="row">
+
+    <!-- Kode Kategori -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Kode Kategori
+        </div>
+
+        <div class="detail-value">
+            KTG001
+        </div>
+
+    </div>
+
+    <!-- Nama Kategori -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Nama Kategori
+        </div>
+
+        <div class="detail-value">
+            Tenda
+        </div>
+
+    </div>
+
+    <!-- Status -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Status
+        </div>
+
+        <div class="detail-value">
+
+            <span class="badge bg-success">
+
+                Aktif
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Jumlah Barang -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Jumlah Barang
+        </div>
+
+        <div class="detail-value">
+            20 Barang
+        </div>
+
+    </div>
+
+    <!-- Deskripsi -->
+
+    <div class="col-12">
+
+        <div class="detail-label">
+            Deskripsi
+        </div>
+
+        <div class="detail-value">
+
+            Kategori ini berisi seluruh jenis tenda yang tersedia
+            untuk kebutuhan acara seperti pernikahan, seminar,
+            konser, pameran, maupun kegiatan outdoor.
+
+        </div>
+
+    </div>
+
+    <!-- Dibuat -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Tanggal Dibuat
+        </div>
+
+        <div class="detail-value">
+            20 Juli 2026
+        </div>
+
+    </div>
+
+    <!-- Update -->
+
+    <div class="col-md-6">
+
+        <div class="detail-label">
+            Terakhir Diperbarui
+        </div>
+
+        <div class="detail-value">
+            22 Juli 2026
+        </div>
+
+    </div>
+
+</div>
+
+<hr class="my-4">
+<!-- ================= TOMBOL AKSI ================= -->
+
+<div class="d-flex justify-content-end gap-2 flex-wrap">
+
+    <a href="{% url 'kategori' %}"
+       class="btn btn-secondary">
+
+        <i class="fas fa-arrow-left me-2"></i>
+
+        Kembali
+
+    </a>
+
+    <a href="{% url 'edit_kategori' 1 %}"
+       class="btn btn-warning">
+
+        <i class="fas fa-pen me-2"></i>
+
+        Edit Kategori
+
+    </a>
+
+    <a href="{% url 'hapus_kategori' 1 %}"
+       class="btn btn-danger"
+       onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')">
+
+        <i class="fas fa-trash me-2"></i>
+
+        Hapus
+
+    </a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
