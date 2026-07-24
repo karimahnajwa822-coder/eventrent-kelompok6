@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import ProfilPengguna, Barang, Penyewaan, Denda
 from datetime import date
-from django.contrib.auth import logout
 
+from .models import (
+    ProfilPengguna,
+    Barang,
+    Penyewaan,
+    Denda,
+)
 # ======================
 # LOGIN
 # ======================
@@ -279,17 +283,81 @@ def hapus_kategori(request, id):
 # ======================
 
 def barang(request):
-    return render(request, 'penyewaan/barang.html')
+    barang_list = Barang.objects.all()
+
+    context = {
+        'barang_list': barang_list,
+    }
+
+    return render(
+        request,
+        'penyewaan/barang.html',
+        context
+    )
 
 def detail_barang(request):
-    return render(request, 'penyewaan/detail_barang.html')
+    barang_list = Barang.objects.all()
+
+    context = {
+        'barang_list': barang_list,
+    }
+
+    return render(
+        request,
+        'penyewaan/detail_barang.html',
+        context
+    )
+
+
+def sewa_barang(request, barang_id):
+    """
+    Menambahkan 1 barang ke keranjang.
+    Data keranjang disimpan di session.
+    """
+
+    barang = get_object_or_404(
+        Barang,
+        id=barang_id
+    )
+
+    keranjang = request.session.get(
+        'keranjang',
+        {}
+    )
+
+    key = str(barang_id)
+
+    if key in keranjang:
+
+        keranjang[key]['jumlah'] += 1
+
+    else:
+
+        keranjang[key] = {
+            'nama_barang': barang.nama_barang,
+            'kode_barang': barang.kode_barang,
+            'harga_sewa': str(barang.harga_sewa),
+            'jumlah': 1,
+        }
+
+    request.session['keranjang'] = keranjang
+
+    messages.success(
+        request,
+        f'"{barang.nama_barang}" berhasil ditambahkan ke keranjang.'
+    )
+
+    return redirect('detail_barang')
 
 # ======================
 # PENYEWAAN
 # ======================
 
 def penyewaan(request):
-    return render(request, 'penyewaan/penyewaan.html')
+    return render(
+        request,
+        'penyewaan/penyewaan.html'
+    )
 
 def form_penyewaan(request):
 
@@ -302,7 +370,6 @@ def form_penyewaan(request):
         )
 
         Penyewaan.objects.create(
-
             penyewa=request.user,
             nama_acara=request.POST.get("nama_acara"),
             tanggal_sewa=request.POST.get("tanggal_sewa"),
@@ -312,7 +379,6 @@ def form_penyewaan(request):
             lokasi=request.POST.get("lokasi"),
             catatan=request.POST.get("catatan"),
             status_transaksi="Menunggu Persetujuan"
-
         )
 
         messages.success(
@@ -349,19 +415,42 @@ def edit_penyewaan(request, id):
 # ======================
 
 def hapus_penyewaan(request, id):
-    return render(request, 'penyewaan/hapus_penyewaan.html')
 
+    sewa = Penyewaan.objects.get(id=id)
+
+    sewa.delete()
+
+    messages.success(
+        request,
+        "Data penyewaan berhasil dihapus."
+    )
+
+    return redirect("penyewaan")
 # ======================
 # KERANJANG
 # ======================
 
 def keranjang(request):
-    return render(request, 'penyewaan/keranjang.html')
+
+    keranjang_data = request.session.get(
+        "keranjang",
+        {}
+    )
+
+    context = {
+        "keranjang": keranjang_data,
+    }
+
+    return render(
+        request,
+        "penyewaan/keranjang.html",
+        context
+    )
+
 
 # ======================
 # LAPORAN
 # ======================
-
 def laporan(request):
     return render(request, 'penyewaan/laporan.html')
 

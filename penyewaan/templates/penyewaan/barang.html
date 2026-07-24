@@ -1,5 +1,105 @@
 {% extends 'penyewaan/base.html' %}
 
+{% block title %}Barang{% endblock %}
+
+{% block title2 %}Data Barang{% endblock %}
+
 {% block content %}
-<h1>Halaman barang</h1>
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Data Barang</h3>
+
+        <a href="#" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Tambah Barang
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Gambar</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Merk</th>
+                        <th>Stok</th>
+                        <th>Harga Sewa</th>
+                        <th>Kondisi</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for barang in barang_list %}
+
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            {% if barang.gambar %}
+                                <img src="{{ barang.gambar.url }}"
+                                     width="80"
+                                     height="60"
+                                     style="object-fit: cover;">
+                            {% else %}
+                                Tidak ada gambar
+                            {% endif %}
+                        </td>
+
+                        <td>{{ barang.kode_barang }}</td>
+
+                        <td>{{ barang.nama_barang }}</td>
+
+                        <td>{{ barang.kategori.nama_kategori }}</td>
+
+                        <td>{{ barang.merk|default:"-" }}</td>
+
+                        <td>{{ barang.stok }}</td>
+
+                        <td>Rp {{ barang.harga_sewa }}</td>
+
+                        <td>{{ barang.kondisi }}</td>
+
+                        <td>{{ barang.status }}</td>
+
+                        <td>
+                            <a href="#" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a href="#" class="btn btn-danger btn-sm">
+                                Hapus
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="11" class="text-center">
+                            Belum ada data barang.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

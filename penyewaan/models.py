@@ -20,8 +20,13 @@ class ProfilPengguna(models.Model):
         ('Dosen', 'Dosen'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
     no_hp = models.CharField(max_length=15)
+
     alamat = models.TextField()
 
     status_akun = models.CharField(
@@ -59,34 +64,78 @@ class Kategori(models.Model):
 class Barang(models.Model):
 
     STATUS_BARANG = [
+    ('Tersedia', 'Tersedia'),
+    ('Dipinjam', 'Dipinjam'),
+    ]
+
+    KONDISI_CHOICES = [
+        ('Baik', 'Baik'),
+        ('Sangat Baik', 'Sangat Baik'),
+        ('Rusak', 'Rusak'),
+    ]
+
+    STATUS_CHOICES = [
         ('Tersedia', 'Tersedia'),
-        ('Dipinjam', 'Dipinjam'),
+        ('Tidak Tersedia', 'Tidak Tersedia'),
     ]
 
     kategori = models.ForeignKey(
         Kategori,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='barang',
+        null=True,
+        blank=True
     )
-
-    nama_barang = models.CharField(max_length=100)
-
-    gambar = models.ImageField(
-        upload_to='barang/'
-    )
-
-    stok = models.IntegerField()
-
-    harga_hari = models.IntegerField()
 
     status = models.CharField(
         max_length=20,
         choices=STATUS_BARANG,
         default='Tersedia'
     )
+    kode_barang = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name="ID",
+        default='BRG-000'
+    )
+
+    nama_barang = models.CharField(
+        max_length=100
+    )
+
+    merk = models.CharField(
+        max_length=100,
+        default='Umum'
+    )
+
+    stok = models.PositiveIntegerField(
+        default=0
+    )
+
+    harga_sewa = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    kondisi = models.CharField(
+        max_length=20,
+        choices=KONDISI_CHOICES,
+        default='Baik'
+    )
+
+    gambar = models.ImageField(
+        upload_to='barang/',
+        blank=True,
+        null=True
+    )
+
+
+    class Meta:
+        ordering = ['kode_barang']
 
     def __str__(self):
-        return self.nama_barang
-
+        return f"{self.kode_barang} - {self.nama_barang}"
 
 # ==========================================
 # PENYEWAAN
@@ -114,13 +163,17 @@ class Penyewaan(models.Model):
         on_delete=models.CASCADE
     )
 
-    nama_acara = models.CharField(max_length=150)
+    nama_acara = models.CharField(
+        max_length=150
+    )
 
     tanggal_sewa = models.DateField()
 
     tanggal_kembali = models.DateField()
 
-    jumlah = models.IntegerField()
+    jumlah = models.PositiveIntegerField(
+        default=1
+    )
 
     lokasi = models.TextField()
 
@@ -129,10 +182,12 @@ class Penyewaan(models.Model):
         null=True
     )
 
-    total_harga = models.IntegerField(
-        blank=True,
-        null=True
-    )
+    total_harga = models.DecimalField(
+    max_digits=12,
+    decimal_places=2,
+    blank=True,
+    null=True
+)   
 
     status_transaksi = models.CharField(
         max_length=30,
