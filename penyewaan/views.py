@@ -55,32 +55,35 @@ def edit_kategori(request, id):
 def hapus_kategori(request, id):
     return redirect('kategori')
 
-
-
-# ======================
-# BARANG (hanya SATU fungsi ini!)
-# ======================
-
-    context = {
-        'barang_list': barang_list,
-    }
-
-    return render(request, 'penyewaan/barang.html', context)
-
     
 
 
 def barang(request):
     barang_list = Barang.objects.all()
-    context = {'barang_list': barang_list}
+
+    context = {
+        'barang_list': barang_list
+    }
+
     return render(request, 'penyewaan/barang.html', context)
+
+
+def detail_barang(request, id):
+    barang = get_object_or_404(Barang, id=id)
+
+    context = {
+        'barang': barang
+    }
+
+    return render(request, 'penyewaan/detail_barang.html', context)
 
 
 def sewa_barang(request, barang_id):
     barang = get_object_or_404(Barang, id=barang_id)
 
     keranjang = request.session.get('keranjang', {})
-    key = str(barang_id)
+
+    key = str(barang.id)
 
     if key in keranjang:
         keranjang[key]['jumlah'] += 1
@@ -93,22 +96,13 @@ def sewa_barang(request, barang_id):
         }
 
     request.session['keranjang'] = keranjang
+    request.session.modified = True
 
-    messages.success(
-        request,
-        f'"{barang.nama_barang}" berhasil ditambahkan ke keranjang.'
-    )
+    print("KERANJANG SEKARANG:", request.session['keranjang'])
 
-    return redirect('keranjang')   # <-- diubah ke 'keranjang', bukan 'detail_barang'
+    return redirect('keranjang')
 
 
-def detail_barang(request):
-    return render(request, 'penyewaan/detail_barang.html')
-
-
-# ======================
-# PENYEWAAN
-# ======================
 
 def penyewaan(request):
     return render(request, 'penyewaan/penyewaan.html')
@@ -131,10 +125,100 @@ def hapus_penyewaan(request, id):
 
 
 def keranjang(request):
-    keranjang_data = request.session.get('keranjang', {})
-    context = {'keranjang': keranjang_data}
-    return render(request, 'penyewaan/keranjang.html', context)
 
+    keranjang = request.session.get('keranjang', {})
+
+    total_barang = len(keranjang)
+    total_unit = 0
+    total_harga = 0
+
+    for id, item in keranjang.items():
+
+        harga = float(item['harga_sewa'])
+        jumlah = int(item['jumlah'])
+
+        item['subtotal'] = harga * jumlah
+
+        total_unit += jumlah
+        total_harga += item['subtotal']
+
+    context = {
+        'keranjang': keranjang,
+        'total_barang': total_barang,
+        'total_unit': total_unit,
+        'total': total_harga,
+    }
+
+    return render(
+        request,
+        'penyewaan/keranjang.html',
+        context
+    )
+    
+def tambah_unit(request, barang_id):
+
+    keranjang = request.session.get('keranjang', {})
+
+    key = str(barang_id)
+
+    if key in keranjang:
+        keranjang[key]['jumlah'] += 1
+
+    request.session['keranjang'] = keranjang
+
+    return redirect('keranjang')
+
+
+def kurang_unit(request, barang_id):
+
+    keranjang = request.session.get('keranjang', {})
+
+    key = str(barang_id)
+
+    if key in keranjang:
+
+        if keranjang[key]['jumlah'] > 1:
+            keranjang[key]['jumlah'] -= 1
+
+    request.session['keranjang'] = keranjang
+
+    return redirect('keranjang')
+
+
+def hapus_barang_keranjang(request, barang_id):
+
+    keranjang = request.session.get('keranjang', {})
+
+    key = str(barang_id)
+
+    if key in keranjang:
+        del keranjang[key]
+
+    request.session['keranjang'] = keranjang
+
+    return redirect('keranjang')
+
+
+def kosongkan_keranjang(request):
+
+    request.session['keranjang'] = {}
+
+    return redirect('keranjang')
+
+def buat_penyewaan(request):
+
+    keranjang = request.session.get('keranjang', {})
+
+    if not keranjang:
+        messages.error(request, "Keranjang masih kosong.")
+        return redirect('keranjang')
+
+  
+    request.session['keranjang'] = {}
+
+    messages.success(request, "Penyewaan berhasil dibuat.")
+
+    return redirect('penyewaan')
 
 
 
