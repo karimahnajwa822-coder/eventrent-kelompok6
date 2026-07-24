@@ -1,0 +1,68 @@
+<div class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-calendar-check"></i>
+        <h2>EventRent</h2>
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="{% url 'dashboard_operator' %}">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'kategori' %}">
+                <i class="fa-solid fa-layer-group"></i>
+                Kategori
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'barang' %}">
+                <i class="fa-solid fa-box-open"></i>
+                Barang
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'persetujuan_dosen' %}">
+                <i class="fa-solid fa-user-check"></i>
+                Persetujuan Dosen
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'persetujuan_peminjaman' %}">
+                <i class="fa-solid fa-clipboard-check"></i>
+                Persetujuan Peminjaman
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'verifikasi_pembayaran' %}">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                Verifikasi Pembayaran
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'pengembalian_barang' %}">
+                <i class="fa-solid fa-rotate-left"></i>
+                Pengembalian
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'logout' %}">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>

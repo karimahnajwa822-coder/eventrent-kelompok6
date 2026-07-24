@@ -1,0 +1,1060 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Dashboard Operator
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',sans-serif;
+}
+
+
+/* HEADER */
+
+.operator-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+
+}
+
+
+.operator-header h2{
+
+    color:#0d6efd;
+    font-weight:700;
+
+}
+
+
+.operator-header p{
+
+    color:#6c757d;
+
+}
+
+
+
+/* CARD */
+
+.dashboard-card{
+
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    height:100%;
+
+}
+
+
+.dashboard-card:hover{
+
+    transform:translateY(-5px);
+    transition:.3s;
+
+}
+
+
+.card-number{
+
+    font-size:32px;
+    font-weight:700;
+
+}
+
+
+.icon{
+
+    width:60px;
+    height:60px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:25px;
+
+}
+
+
+.blue{
+
+background:#0d6efd;
+
+}
+
+
+.green{
+
+background:#198754;
+
+}
+
+
+.orange{
+
+background:#fd7e14;
+
+}
+
+
+.purple{
+
+background:#6f42c1;
+
+}
+
+
+
+/* TABLE */
+
+
+.card{
+
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+
+.card-header{
+
+    background:#0d6efd;
+    color:white;
+    padding:18px;
+
+}
+
+
+.table th{
+
+    color:#0d6efd;
+
+}
+
+
+.badge{
+
+    padding:8px 15px;
+    border-radius:20px;
+
+}
+
+
+</style>
+
+
+
+
+<div class="container-fluid py-4">
+
+
+<!-- HEADER -->
+
+<div class="operator-header">
+
+
+<div>
+
+<h2>
+<i class="fas fa-user-cog me-2"></i>
+Dashboard Operator
+</h2>
+
+
+<p>
+Selamat datang, {{ request.user.username }}.
+Anda login sebagai Operator EventRent.
+</p>
+
+
+</div>
+
+
+
+<div class="text-end">
+
+
+<h6 class="text-muted">
+Role
+</h6>
+
+
+<h5 class="fw-bold text-primary">
+
+Operator
+
+</h5>
+
+
+</div>
+
+
+
+</div>
+<!-- ================= STATISTIK OPERATOR ================= -->
+
+
+<div class="row g-4">
+
+
+<div class="col-lg-3 col-md-6">
+
+<div class="dashboard-card">
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+<small class="text-muted">
+Total Barang
+</small>
+
+
+<div class="card-number">
+120
+</div>
+
+
+</div>
+
+
+<div class="icon blue">
+
+<i class="fas fa-box"></i>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+<div class="col-lg-3 col-md-6">
+
+<div class="dashboard-card">
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+<small class="text-muted">
+Total Penyewaan
+</small>
+
+
+<div class="card-number">
+53
+</div>
+
+
+</div>
+
+
+<div class="icon green">
+
+<i class="fas fa-calendar-check"></i>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+<div class="col-lg-3 col-md-6">
+
+<div class="dashboard-card">
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+<small class="text-muted">
+Menunggu Persetujuan
+</small>
+
+
+<div class="card-number">
+{{ dosen_pending|length }}
+</div>
+
+
+</div>
+
+
+<div class="icon orange">
+
+<i class="fas fa-user-clock"></i>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+<div class="col-lg-3 col-md-6">
+
+<div class="dashboard-card">
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+<small class="text-muted">
+Pelanggan
+</small>
+
+
+<div class="card-number">
+75
+</div>
+
+
+</div>
+
+
+<div class="icon purple">
+
+<i class="fas fa-users"></i>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<!-- ================= REGISTRASI DOSEN ================= -->
+
+
+<div class="card mt-5">
+
+
+<div class="card-header">
+
+<h5 class="mb-0">
+
+<i class="fas fa-user-check me-2"></i>
+
+Persetujuan Registrasi Dosen
+
+</h5>
+
+</div>
+
+
+
+
+<div class="card-body p-0">
+
+
+<div class="table-responsive">
+
+
+<table class="table table-hover mb-0">
+
+
+<thead>
+
+
+<tr>
+
+<th>No</th>
+
+<th>Nama Dosen</th>
+
+<th>Username</th>
+
+<th>Email</th>
+
+<th>Status</th>
+
+<th width="150">
+Aksi
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+{% for dosen in dosen_pending %}
+
+
+
+<tr>
+
+
+<td>
+
+{{ forloop.counter }}
+
+</td>
+
+
+
+<td>
+
+{{ dosen.user.get_full_name }}
+
+</td>
+
+
+
+<td>
+
+{{ dosen.user.username }}
+
+</td>
+
+
+
+<td>
+
+{{ dosen.user.email }}
+
+</td>
+
+
+
+<td>
+
+
+<span class="badge bg-warning text-dark">
+
+Menunggu
+
+</span>
+
+
+</td>
+
+
+
+
+<td>
+
+
+<a href="{% url 'setujui_dosen' dosen.id %}"
+
+class="btn btn-success btn-sm">
+
+
+<i class="fas fa-check"></i>
+
+
+</a>
+
+
+
+<a href="{% url 'tolak_dosen' dosen.id %}"
+
+class="btn btn-danger btn-sm">
+
+
+<i class="fas fa-times"></i>
+
+
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% empty %}
+
+
+
+<tr>
+
+
+<td colspan="6" class="text-center py-4">
+
+
+Belum ada registrasi dosen yang menunggu.
+
+
+</td>
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<!-- ================= PENGAJUAN PEMINJAMAN ================= -->
+
+
+<div class="card mt-5">
+
+
+<div class="card-header">
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<h5 class="mb-0">
+
+<i class="fas fa-list me-2"></i>
+
+Pengajuan Peminjaman
+
+</h5>
+
+
+
+<a href="{% url 'persetujuan_peminjaman' %}"
+
+class="btn btn-light btn-sm">
+
+
+<i class="fas fa-eye me-2"></i>
+
+Lihat Semua
+
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="card-body p-0">
+
+
+<div class="table-responsive">
+
+
+<table class="table table-hover mb-0">
+
+
+<thead>
+
+
+<tr>
+
+<th>No</th>
+
+<th>Kode</th>
+
+<th>Pelanggan</th>
+
+<th>Barang</th>
+
+<th>Tanggal</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+<th>Aksi</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+<tr>
+
+
+<td>1</td>
+
+
+<td>
+
+<strong>EVR-001</strong>
+
+</td>
+
+
+
+<td>
+
+Fatma Auliya
+
+</td>
+
+
+
+<td>
+
+Tenda VIP
+
+</td>
+
+
+
+<td>
+
+20 Juli 2026
+
+</td>
+
+
+
+<td>
+
+Rp1.500.000
+
+</td>
+
+
+
+<td>
+
+<span class="badge bg-warning text-dark">
+
+Menunggu
+
+</span>
+
+</td>
+
+
+
+
+<td>
+
+
+
+<a href="{% url 'detail_penyewaan' 1 %}"
+
+class="btn btn-info btn-sm">
+
+
+<i class="fas fa-eye"></i>
+
+
+</a>
+
+
+
+
+<a href="{% url 'setujui_peminjaman' 1 %}"
+
+class="btn btn-success btn-sm">
+
+
+<i class="fas fa-check"></i>
+
+
+</a>
+
+
+
+
+<a href="{% url 'tolak_peminjaman' 1 %}"
+
+class="btn btn-danger btn-sm">
+
+
+<i class="fas fa-times"></i>
+
+
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+
+<td>2</td>
+
+
+<td>
+
+<strong>EVR-002</strong>
+
+</td>
+
+
+
+<td>
+
+Najwa
+
+</td>
+
+
+
+<td>
+
+Sound System
+
+</td>
+
+
+
+<td>
+
+18 Juli 2026
+
+</td>
+
+
+
+<td>
+
+Rp2.000.000
+
+</td>
+
+
+
+<td>
+
+<span class="badge bg-success">
+
+Disetujui
+
+</span>
+
+
+</td>
+
+
+
+
+<td>
+
+
+<a href="{% url 'detail_penyewaan' 2 %}"
+
+class="btn btn-info btn-sm">
+
+
+<i class="fas fa-eye"></i>
+
+
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ================= AKTIVITAS OPERATOR ================= -->
+
+
+<div class="row mt-5">
+
+
+<div class="col-lg-6">
+
+
+<div class="dashboard-card">
+
+
+<h5 class="fw-bold mb-4">
+
+
+<i class="fas fa-clock text-primary me-2"></i>
+
+
+Aktivitas Operator
+
+
+</h5>
+
+
+
+
+<p>
+
+<i class="fas fa-check-circle text-success me-2"></i>
+
+Menyetujui registrasi dosen baru.
+
+
+</p>
+
+
+
+
+<p>
+
+<i class="fas fa-box text-primary me-2"></i>
+
+Mengelola data barang EventRent.
+
+
+</p>
+
+
+
+
+<p>
+
+<i class="fas fa-calendar-check text-warning me-2"></i>
+
+Memproses pengajuan peminjaman.
+
+
+</p>
+
+
+
+
+<p class="mb-0">
+
+<i class="fas fa-users text-danger me-2"></i>
+
+Mengawasi pengguna sistem.
+
+
+</p>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="col-lg-6">
+
+
+<div class="dashboard-card">
+
+
+<h5 class="fw-bold mb-4">
+
+
+<i class="fas fa-chart-line text-primary me-2"></i>
+
+
+Ringkasan Hari Ini
+
+
+</h5>
+
+
+
+<table class="table">
+
+
+<tr>
+
+<td>Peminjaman Baru</td>
+
+<td class="text-end">
+
+<strong>5</strong>
+
+</td>
+
+
+</tr>
+
+
+
+<tr>
+
+<td>Barang Dipinjam</td>
+
+<td class="text-end">
+
+<strong>16</strong>
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+<td>Registrasi Dosen</td>
+
+<td class="text-end">
+
+<strong>
+{{ dosen_pending|length }}
+</strong>
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+<td>Pendapatan</td>
+
+<td class="text-end text-success">
+
+
+<strong>
+
+Rp18.750.000
+
+</strong>
+
+
+</td>
+
+
+</tr>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
+{% endblock %}

@@ -571,6 +571,11 @@ font-size:30px;
     margin:0;
     color:white;
 }
+.sidebar ul li a i{
+    width:22px;
+    font-size:18px;
+    text-align:center;
+}
 
 .sidebar ul{
     list-style:none;

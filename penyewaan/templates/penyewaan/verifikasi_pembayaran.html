@@ -1,0 +1,176 @@
+{% extends 'penyewaan/base.html' %}
+
+{% block title %}
+Verifikasi Pembayaran
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold text-primary">
+
+                Verifikasi Pembayaran
+
+            </h2>
+
+            <p class="text-muted">
+
+                Daftar pembayaran yang menunggu verifikasi.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-success">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+    <div class="card shadow border-0 rounded-4">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-primary">
+
+                        <tr>
+
+                            <th>No</th>
+                            <th>Dosen</th>
+                            <th>Acara</th>
+                            <th>Barang</th>
+                            <th>Total</th>
+                            <th>Bukti</th>
+                            <th>Status</th>
+                            <th width="230">Aksi</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for p in data %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>{{ p.penyewa.username }}</td>
+
+                            <td>{{ p.nama_acara }}</td>
+
+                            <td>{{ p.barang.nama_barang }}</td>
+
+                            <td>
+
+                                Rp {{ p.total_harga }}
+
+                            </td>
+
+                            <td>
+
+                                {% if p.bukti_bayar %}
+
+                                    <a href="{{ p.bukti_bayar.url }}"
+                                       target="_blank"
+                                       class="btn btn-info btn-sm">
+
+                                        <i class="fas fa-image"></i>
+
+                                        Lihat
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="text-danger">
+
+                                        Belum Upload
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-warning">
+
+                                    {{ p.status_transaksi }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <a href="{% url 'setujui_pembayaran' p.id %}"
+                                   class="btn btn-success btn-sm">
+
+                                    <i class="fas fa-check"></i>
+
+                                    Setujui
+
+                                </a>
+
+                                <a href="{% url 'tolak_pembayaran' p.id %}"
+                                   class="btn btn-danger btn-sm">
+
+                                    <i class="fas fa-times"></i>
+
+                                    Tolak
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td colspan="8" class="text-center py-4">
+
+                                Tidak ada pembayaran yang perlu diverifikasi.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

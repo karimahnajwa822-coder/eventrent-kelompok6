@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import ProfilPengguna, Kategori, Barang, Penyewaan
 
-# Register your models here.
+admin.site.register(ProfilPengguna)
+admin.site.register(Kategori)
+admin.site.register(Barang)
+admin.site.register(Penyewaan)

@@ -1,0 +1,213 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Tambah Operator
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+.form-card{
+    background:#fff;
+    border:none;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    overflow:hidden;
+}
+
+.card-header{
+    background:linear-gradient(90deg,#0d6efd,#4f8dfd);
+    color:white;
+    padding:20px 25px;
+}
+
+.card-header h3{
+    margin:0;
+    font-weight:700;
+}
+
+.card-body{
+    padding:30px;
+}
+
+.form-label{
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.form-control{
+    border-radius:10px;
+    padding:10px 14px;
+}
+
+.btn{
+    border-radius:10px;
+    font-weight:600;
+    padding:10px 22px;
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+<div class="form-card">
+
+<div class="card-header">
+
+<h3>
+
+<i class="fas fa-user-plus me-2"></i>
+
+Tambah Operator
+
+</h3>
+
+</div>
+
+<div class="card-body">
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+
+                Username
+
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                class="form-control"
+                placeholder="Masukkan username"
+                required>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+
+                Email
+
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Masukkan email"
+                required>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+
+                Password
+
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                class="form-control"
+                placeholder="Masukkan password"
+                required>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+
+                Nomor HP
+
+            </label>
+
+            <input
+                type="text"
+                name="no_hp"
+                class="form-control"
+                placeholder="08xxxxxxxxxx"
+                required>
+
+        </div>
+
+        <div class="col-12 mb-3">
+
+            <label class="form-label">
+
+                Alamat
+
+            </label>
+
+            <textarea
+                name="alamat"
+                rows="4"
+                class="form-control"
+                placeholder="Masukkan alamat lengkap"
+                required></textarea>
+
+        </div>
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert alert-success">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        <div class="col-12 mt-4">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                <i class="fas fa-save me-2"></i>
+
+                Simpan Operator
+
+            </button>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Kembali
+
+            </a>
+
+        </div>
+
+    </div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

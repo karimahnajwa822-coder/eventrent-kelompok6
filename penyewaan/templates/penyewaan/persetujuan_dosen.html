@@ -1,0 +1,208 @@
+{% extends 'penyewaan/base.html' %}
+{% load static %}
+
+{% block title %}
+Persetujuan Dosen
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f7fc;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.page-title h2{
+    color:#0d6efd;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#6c757d;
+    margin:0;
+}
+
+.card-custom{
+
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.table{
+
+    vertical-align:middle;
+
+}
+
+.table thead{
+
+    background:linear-gradient(90deg,#0d6efd,#4f8dfd);
+    color:white;
+
+}
+
+.table thead th{
+
+    border:none;
+    padding:15px;
+    text-align:center;
+
+}
+
+.table tbody td{
+
+    text-align:center;
+    padding:15px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+</style>
+
+<div class="container-fluid py-4">
+
+<div class="page-header">
+
+    <div class="page-title">
+
+        <h2>Persetujuan Akun Dosen</h2>
+
+        <p>
+            Operator dapat menyetujui akun dosen yang baru mendaftar.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card-custom">
+
+<div class="table-responsive">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+    <th>No</th>
+    <th>Username</th>
+    <th>No HP</th>
+    <th>Alamat</th>
+    <th>Status</th>
+    <th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+{% for dosen in data_dosen %}
+
+<tr>
+
+    <td>
+
+        {{ forloop.counter }}
+
+    </td>
+
+    <td>
+
+        {{ dosen.user.username }}
+
+    </td>
+
+    <td>
+
+        {{ dosen.no_hp }}
+
+    </td>
+
+    <td>
+
+        {{ dosen.alamat }}
+
+    </td>
+
+    <td>
+
+        <span class="badge bg-warning text-dark">
+
+            {{ dosen.status_akun }}
+
+        </span>
+
+    </td>
+
+    <td>
+
+        <a href="{% url 'setujui_dosen' dosen.id %}"
+           class="btn btn-success btn-sm"
+           onclick="return confirm('Setujui akun dosen ini?')">
+
+            <i class="fas fa-check me-1"></i>
+
+            Setujui
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+    <td colspan="6">
+
+        <div class="text-center py-4">
+
+            <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+
+            <h5>Tidak ada pengajuan akun.</h5>
+
+            <p class="text-muted">
+
+                Semua akun dosen sudah disetujui.
+
+            </p>
+
+        </div>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
